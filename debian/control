@@ -1,0 +1,18 @@
+Source: ucsd-psystem-vm
+Section: utils
+Priority: extra
+Maintainer: Peter Miller <pmiller@opensource.org.au>
+Homepage: http://ucsd-psystem-vm.sourceforge.net
+Build-Depends: debhelper (>= 5), groff, libexplain, libx11-dev, ucsd-psystem-fs,
+ ucsd-psystem-xc
+Standards-Version: 3.8.0
+
+Package: ucsd-psystem-vm
+Section: utils
+Priority: extra
+Architecture: any
+Description: UCSD p-System Virtual Machine
+ The ucsd-psystem-vm package contains a UCSD p-System Virtuan Machine,
+ or p-machine as UCSD called it.  Using this package you will be able to
+ run UCSD Pascal programs, including Apple Pascal programs.
+Depends: ${misc:Depends}, ${shlibs:Depends}

@@ -1,0 +1,234 @@
+.\"
+.\" UCSD p-System virtual machine
+.\" Copyright (C) 2006, 2010 Peter Miller
+.\"
+.\" This program is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 2 of the License, or
+.\" (at your option) any later version.
+.\"
+.\" This program is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+.\" General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License
+.\" along with this program. If not, see <http://www.gnu.org/licenses/>.
+.\"
+.ad l
+.hy 0
+.so etc/version.so
+.nf
+<html><head>
+<link rel="icon" href="favicon.ico"
+type="image/x-icon">
+<link rel="shortcut icon" href="favicon.ico"
+type="image/x-icon">
+<title>ucsd-psystem-vm \*(v)</title></head>
+<body bgcolor=white><h1 align="center" >
+<img src="icon64.png" align=left>
+<img src="icon64.png" align=right>
+ucsd-psystem-vm \*(v)<br>
+Files for Download
+</h1>
+Theer are several way to obtain this software,
+both as source code and as pre-compiled binaries.
+<p>
+
+<table>
+
+<tr>
+    <td valign="top" align="center" >
+        <img src="icon64.png" alt="[1]" />
+    </td>
+    <td valign="top" >
+        <h2> The Master Sources </h2>
+        The following files can be downloaded from this web site.
+        <p>
+        <table>
+        <tr>
+            <th>File Name</th>
+            <th>Description</th>
+            </tr>
+        <tr>
+            <td valign="top" nowrap>
+                <a href="ucsd-psystem-vm-\*(v).README"
+                ><tt>ucsd-psystem-vm-\*(v).README</tt></a></td>
+            <td valign="top">
+                The <tt>README</tt> file from the tar distribution.</td>
+                </tr>
+        <tr>
+            <td valign="top" nowrap>
+                <a href="change_log.txt"><tt>change_log.txt</tt></a></td>
+            <td valign="top">
+                The release notes describing the changes in this version.</td>
+                </tr>
+        <tr>
+            <td valign="top" nowrap>
+                <a href="ucsd-psystem-vm-\*(v).lsm"
+                ><tt>ucsd-psystem-vm-\*(v).lsm</tt></a></td>
+            <td valign="top">
+                Brief description in
+                <a href="ftp://sunsite.unc.edu/pub/Linux/LSM-TEMPLATE" >LSM</a>
+                format.</td>
+            </tr>
+        <tr>
+            <td valign="top" nowrap>
+                <a href="ucsd-psystem-vm-\*(v).tar.gz"
+                ><tt>ucsd-psystem-vm-\*(v).tar.gz</tt></a></td>
+            <td valign="top">
+                The complete source.</td>
+                </tr>
+        <tr>
+            <td valign="top" nowrap>
+                <a href="ucsd-psystem-vm-\*(v).pdf"
+                ><tt>ucsd-psystem-vm-\*(v).pdf</tt></a></td>
+            <td valign="top">
+                ucsd-psystem-vm Reference Manual, in Adobe Acrobat format.</td>
+                </tr>
+.\"     <tr>
+.\"         <td valign="top" nowrap>
+.\"             <a href="debian/" >debian</a>/</td>
+.\"         <td valign="top">
+.\"             Pre-built x86_64 Debian package, and source package.
+.\"             </td>
+.\"             </tr>
+        </table>
+        <p><br/>
+    </td>
+    </tr>
+
+<tr>
+    <td valign="top" align="center" >
+        <a href="https://sourceforge.net/projects/ucsd-psystem-vm/files/"
+        ><img src="http://libexplain.sourceforge.net/sf.png" alt="[2]" border=0
+        /></a>
+    </td>
+    <td valign="top" >
+        <h2> SourceForge </h2>
+        As your first choice, get the tarball from the <a
+        href="https://sourceforge.net/projects/ucsd-psystem-vm/files/"
+        >SourceForge mirror service</a>, it will be faster than the other links
+        on this page.
+        <p>
+        This page is hosted by <a
+        href="http://sourceforge.net">SourceForge</a>; see also the <a
+        href="http://sourceforge.net/projects/ucsd-psystem-vm/"
+        >Project</a> and <a
+href="http://sourceforge.net/project/stats/index.php?\
+group_id=314155&ugn=ucsd-psystem-vm"
+        >Statistics</a> pages.
+        <p><br/>
+    </td>
+    </tr>
+
+<tr>
+    <td valign="top" align="center" >
+        <a href="https://launchpad.net/~pmiller-opensource/+archive/ppa" ><img
+        src="https://launchpad.net/@@/launchpad-logo.png" alt="[3]" border=0
+        /></a>
+    </td>
+    <td valign="top" >
+        <h2> Ubuntu Packages </h2>
+        If you use <a href="http://ubuntu.com/" >Ubuntu</a> Linux,
+        there are pre-built packages available for installation
+        using the normal <tt>sudo apt-get install</tt> method, from <a
+        href="https://launchpad.net/~pmiller-opensource/+archive/ppa"
+        ><b>this</b> package archive</a> (<a
+        href="https://help.launchpad.net/Packaging/PPA" >PPA</a>).
+        <p>
+        Instructions are available there for how to manually add the PPA
+        to your <tt>/etc/apt/sources.list</tt> file, but the following commands
+        are sufficient on recent versions of Ubuntu:
+        <blockquote>
+<pre>sudo add-apt-repository ppa:pmiller-opensource/ppa
+sudo apt-get update
+sudo apt-get install uvsd-psystem-vm</pre>
+        </blockquote>
+        <p><br/>
+    </td>
+    </tr>
+
+<tr>
+    <td valign="top" align="center" >
+        <a
+    href="http://aegis.sourceforge.net/cgi-bin/aeget/ucsd-psystem-vm.\*(v)?menu"
+        ><img src="http://aegis.sourceforge.net/aegis.png" border=0 alt="[4]"
+        /></a>
+    </td>
+    <td valign="top" >
+        <h2> Aegis Repo </h2>
+        The ucsd-psystem-vm project is developed using <a
+        href="http://aegis.sourceforge.net/" >Aegis</a> DVCS.
+        <p>
+        The Aegis <a
+    href="http://aegis.sourceforge.net/cgi-bin/aeget/ucsd-psystem-vm.\*(v)?menu"
+        >repository</a> for this project is available online.
+        <p><br/>
+    </td>
+    </tr>
+</table>
+
+<hr>
+.\" ------------------------------------------------------------------------
+<table border=0>
+
+<tr><td valign="top" >
+<a href="http://www.fsf.org/">
+<img
+src="http://upload.wikimedia.org/wikipedia/commons/b/bf/\
+GNU-FDL-ic%C3%B4ne-Transparente.PNG"
+border=0 ></a>
+</td>
+
+<td valign="top" width="35%" >
+The <i>ucsd-psystem-vm</i> package is written and owned by <a
+href="mailto:pmiller@opensource.org.au" >Peter Miller</a> and is freely
+distributable under the terms and conditions of the
+<a href="http://www.gnu.org/licenses/gpl.txt" >GNU GPL</a>.
+</td>
+
+<td valign="top" >
+<a href="http://www.opensource.org/docs/definition.php"><img
+src="http://www.opensource.org/trademarks/opensource/web/opensource-110x95.png"
+border="0" /></a>
+</td>
+
+<td valign="top" align="right" >
+There is more <a href="http://miller.emu.id.au/pmiller/"
+>Software by Peter Miller</a>
+at his home page.
+</td>
+
+<td valign="top" >
+<a href="http://miller.emu.id.au/pmiller/" ><img
+src="http://miller.emu.id.au/pmiller/pmiller_2003_colour.64.png"
+border=0></a>
+</td></tr>
+
+</table>
+<hr>
+This page has been accessed approximately
+<img
+src="\
+http://miller.emu.id.au/\
+cgi-bin/web_hit_counter?\
+pmiller-ucsd-psystem-vm-\*(v)_dl"
+>
+times since
+.ds MO1 Jan
+.ds MO2 Feb
+.ds MO3 Mar
+.ds MO4 Apr
+.ds MO5 May
+.ds MO6 Jun
+.ds MO7 Jul
+.ds MO8 Aug
+.ds MO9 Sep
+.ds MO10 Oct
+.ds MO11 Nov
+.ds MO12 Dec
+.nr y4 \n[yr]+1900
+\n[dy]-\*[MO\n[mo]]-\n[y4].
+
+</body></html>

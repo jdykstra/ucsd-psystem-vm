@@ -1,0 +1,51 @@
+/*
+ *      aegis - project change supervisor
+ *      This file is in the Public Domain, 2006, Peter Miller.
+ *
+ * The ${quote ...} construct is used to quote filenames which contain
+ * shell special characters.  A minimum of quoting is performed, so if
+ * the filenames do not contain shell special characters, no quotes will
+ * be used.
+ */
+
+
+/*
+ * Compare two files using GNU diff.  The -U -1 option produces an output
+ * with inserts and deletes shown line, with the whole file as context.
+ * This is usually superior to -c, as it shows what happened
+ * more clearly (and it takes less space).  The -b option could be added
+ * to compare runs of white space as equal.
+ *
+ * The variant of the diff_command deals with binary files.  If the diff
+ * return code is greater then 1, then make sure that diff spit out the
+ * 'Binary files differ message' and return 0, otherwise return 1
+ *
+ * This command is used by aed(1) to produce a difference listing when
+ * file in the development directory was originally copied from the
+ * current version in the baseline.
+ *
+ * All of the command substitutions described in aesub(5) are available.
+ * In addition, the following substitutions are also available:
+ *
+ * ${ORiginal}
+ *      The absolute path name of a file containing the version
+ *      originally copied.  Usually in the baseline.
+ * ${Input}
+ *      The absolute path name of the edited version of the file.
+ *      Usually in the development directory.
+ * ${Output}
+ *      The absolute path name of the file in which to write the
+ *      difference listing.  Usually in the development directory.
+ *
+ * An exit status of 0 means successful, even of the files differ (and
+ * they usually do).  An exit status which is non-zero means something
+ * is wrong.  (So we need to massage the exit status, because diff does
+ * things a little differently.)
+ */
+diff_command =
+       "set +e; "
+       "diff -U -1 -a ${quote $original} ${quote $input} > ${quote $output}; "
+       "if test $? -gt 1; then "
+       "grep -q '^Binary' ${quote $output}; "
+       "test $? -eq 0; "
+       "else true; fi";

@@ -1,0 +1,368 @@
+/*
+ * UCSD p-System virtual machine
+ * Copyright (C) 2006, 2010 Peter Miller
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or (at
+ * your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+integration-build-targets:
+    archive/change_log.txt
+    archive/[project_minus].README
+    archive/[project_minus].lsm
+    archive/[project_minus].tar.gz
+    archive/[project_minus].pdf
+    archive/icon.png
+    [fromto web/%.html archive/%.html
+        [match_mask web/%.html [source_files]]
+    ]
+    ;
+
+source_file_order =
+    README
+    [sort
+        [stringset
+            [source_files]
+            BUILDING
+            LICENSE
+
+            /*
+             * These two are for time stamping the distribution.
+             */
+            etc/version.so
+            lib/patchlevel.h
+
+            /*
+             * These four are for building the distribution.
+             */
+            Makefile.in
+            lib/config.h.in
+            install-sh
+            configure
+
+            /*
+             * for the reference manual
+             */
+            etc/ref-index.so
+            etc/ref-parts.so
+            etc/new.so
+        -
+            README
+        ]
+    ]
+    ;
+
+aemakegen = aemakegen;
+
+/*
+ * These recipes build a Makefile for a user.  They do not build a
+ * Makefile useful for a development build, because no arch
+ * information is included in the Makefile.
+ */
+
+Makefile.in: [source_files]
+{
+    [aemakegen] --target\=makefile --project\=[project] --change\=[change]
+       --output\=[target];
+}
+
+archive/[project_minus].tar.gz: [source_file_order]
+        debian/control /* et al */
+    set shallow
+{
+    tar cf - [resolve [source_file_order]]
+        debian/changelog
+        debian/compat
+        debian/control
+        debian/rules
+        'debian/*.install'
+    | tardy
+        -una Peter -gna Miller
+        -unu 0 -gnu 0
+        -ms 0644 -mc 07022
+        -now
+        -prefix\=[project_minus]
+        [prepost "-rp=" "" [search_list]]
+    | gzip -9
+    > [target];
+}
+
+archive/[project_minus].%: %
+    set shallow
+{
+    cat [resolve [need]] > [target];
+}
+
+archive/[project_minus].pdf: etc/reference.pdf
+    set shallow
+{
+    cat [resolve [need]] > [target];
+}
+
+README: etc/readme.txt
+{
+    cp [resolve etc/readme.txt] [target];
+}
+
+BUILDING: etc/building.txt
+{
+    cp [resolve etc/building.txt] [target];
+}
+
+etc/%.txt: etc/%.man
+{
+    roffpp
+        [prepost "-I" /[arch] [search_list]]
+        [addprefix "-I" [search_list]]
+        [resolve etc/%.man]
+    | groff -Tascii -t -P-bcu -man
+    > [target];
+}
+
+archive/%.txt: etc/%.man
+    set shallow
+{
+    roffpp
+        [prepost "-I" /[arch] [search_list]]
+        [addprefix "-I" [search_list]]
+        [resolve etc/%.man]
+    | groff -Tascii -t -P-bcu -man
+    > [target];
+}
+
+etc/%.man.d: etc/%.man
+    set no-cascade
+{
+    [c_incl] -nc -ns -api -nrec
+        --lang\=roff
+        [addprefix "-I" [search_list]]
+        [prepost "-I" "/man/man1" [search_list]]
+        [prepost "-I" "/man/man5" [search_list]]
+        [resolve etc/%.man]
+        -prefix "'cascade etc/%.man ='"
+        -suffix "';'"
+        [addprefix "-rlp=" [search_list]]
+        -o [target];
+}
+
+#include-cooked [addsuffix ".d" [match_mask etc/%.man [source_files]]]
+
+
+/*
+* This is not in the integration-build-targets because it takes far
+* too long to do.
+*/
+
+RPM: archive/[project_minus]-1.i386.rpm;
+
+archive/[project_minus]-1.i386.rpm archive/[project_minus]-1.src.rpm:
+        archive/[project_minus].tar.gz etc/rpm-build.sh
+    set shallow
+{
+    sh [resolve etc/rpm-build.sh]
+        RPM-temporary
+        [resolve archive/[project_minus].tar.gz]
+        ;
+    mv RPM-temporary/RPMS/i386/[project_minus]-1.i386.rpm
+        archive/[project_minus]-1.i386.rpm
+        ;
+    mv RPM-temporary/SRPMS/[project_minus]-1.src.rpm
+        archive/[project_minus]-1.src.rpm
+        ;
+    rm -r RPM-temporary;
+}
+
+[project_minus].spec: etc/spec.sh [source_files]
+{
+    version\=[version_short]
+    sh [resolve etc/spec.sh] [source_files] > [target];
+}
+
+archive/[project_minus].spec: [project_minus].spec
+    set shallow
+{
+    cat [resolve [need]] > [target];
+}
+
+archive/%: web/%.uue
+    set shallow
+{
+    uudecode -o [target] [resolve [need]];
+}
+
+
+web/%.html.d: web/%.html
+    set no-cascade
+{
+    c_incl -nc -ns -eia -r -nrec
+        [prepost "-I" /[arch] [search_list]]
+        [addprefix "-I" [search_list]]
+        -prefix "'cascade web/"%".html ='"
+        -suffix "';'"
+        [resolve web/%.html]
+        [prepost "-rlp=" "" [search_list]] /* remove leading path */
+        -slp [arch] "'[arch]'" /* substitute leading path */
+        -o [target];
+}
+
+#include-cooked [addsuffix ".d" [match_mask web/%.html [source_files]]]
+
+archive/%.html: web/%.html etc/ssp.awk
+    set shallow
+{
+    roffpp
+        [prepost "-I" /[arch] [search_list]]
+        [addprefix "-I" [search_list]]
+        [resolve web/%.html]
+    | groff -Tascii -t -P-bcu -man
+    | [awk] -f [resolve etc/ssp.awk]
+    > [target];
+}
+
+
+etc/[project_short].lsm.d: etc/[project_short].lsm
+    set no-cascade
+{
+    c_incl -nc -ns -eia -r -nrec
+        [prepost "-I" /[arch] [search_list]]
+        [addprefix "-I" [search_list]]
+        -prefix "'cascade etc/"[project_short]".lsm ='"
+        -suffix "';'"
+        [resolve etc/[project_short].lsm]
+        [prepost "-rlp=" "" [search_list]] /* remove leading path */
+        -slp [arch] "'[arch]'" /* substitute leading path */
+        -o [target];
+}
+
+#include-cooked-nowarn etc/[project_short].lsm.d
+
+archive/[project_minus].lsm: etc/[project_short].lsm etc/ssp.awk
+    set shallow
+{
+    roffpp
+        [prepost "-I" /[arch] [search_list]]
+        [addprefix "-I" [search_list]]
+        [resolve etc/[project_short].lsm]
+    | groff -Tascii -t -P-bcu -man
+    | [awk] -f [resolve etc/ssp.awk]
+    > [target];
+}
+
+LICENSE: man/cat1/ucsdpsys_vm_license.1
+{
+    cat [resolve [need]] > [target];
+}
+
+archive/icon%.png: archive/icon.png
+    set shallow
+{
+    convert [resolve archive/icon.png] -scale % [target];
+}
+
+
+archive/favicon.ico: archive/icon16.png archive/icon32.png archive/icon64.png
+    set shallow
+{
+    png2ico [target]
+        [resolve archive/icon16.png]
+        [resolve archive/icon32.png]
+        [resolve archive/icon64.png]
+        ;
+}
+
+
+/*
+ * Only build the favicon is we have the png2ico command (self-named
+ * package) and the convert command (from the imagemagick package).
+ */
+if [find_command png2ico] then
+if [find_command convert] then
+{
+    // Add this as a dependency, to trigger when necessary.
+    archive/index.html: archive/favicon.ico archive/icon64.png;
+}
+
+
+check-tarball: archive/[project_minus].tar.gz etc/check-tarball.sh
+{
+    sh [resolve etc/check-tarball.sh archive/[project_minus].tar.gz];
+}
+
+
+
+debian/control
+debian/srecord.install
+debian/changelog: [source_files]
+    set shallow
+{
+    /* This actually makes more files than just debian/control */
+    [aemakegen] -project\=[project] -change\=[change] --target\=debian;
+}
+
+
+/*
+ * we can't build a debian package, yet, because the necessary
+ * ucsd-psystem-xc package isn't in the package repository.
+ *
+if [in [fromto %1D%2 %2 [version]] 001 002 003 004] then
+{
+    integration-build-targets += debian-package;
+}
+*/
+
+
+debian-package: archive/[project_minus].tar.gz
+    debian/changelog
+{
+    local vsn = [collect head -1 [resolve debian/changelog]
+                         | sed "'s|.*(\\([^()]*\\).*|\\1|'" ];
+    vsn = [fromto %-1 % [vsn]];
+    function print "vsn = '"[vsn]"'";
+    if [not [in [count [vsn]] 1]] then
+        fail "debian version not right";
+    local tarball = [project_short]_[vsn].orig.tar.gz;
+
+    local user = [collect id -un];
+    local key = ;
+    if [in [user] archives] then
+        key = -k19CEC7D5;
+    else
+        key = -us -uc;
+
+    /*
+     * We fake the .orig.tar.gz file to not have a debian/ directory,
+     * by filtering it out with tardy.  This silences a PITA lintian
+     * warning, for no real benefit.
+     */
+
+    unset GPG_AGENT_INFO &&
+    rm -rf archive/debian &&
+    mkdir -p archive/debian &&
+    cd archive/debian &&
+    echo Options Indexes > .htaccess &&
+    gunzip < ../[project_minus].tar.gz
+        | tardy -exclude "'"[project_minus]"/debian/*'"
+                -exclude [project_minus]/etc/crc16-ccitt.html /*not free enuf*/
+        | gzip -9 > [tarball] &&
+    tar xzf ../[project_minus].tar.gz &&
+    cd [project_minus] &&
+#if 0
+    dpkg-buildpackage -sgpg [key] -sa &&
+#else
+    debuild [key] -sa &&
+#endif
+    cd .. &&
+    rm -rf [project_minus] &&
+    lintian -iIv --pedantic *.changes
+    ;
+}

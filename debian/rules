@@ -1,0 +1,65 @@
+#!/usr/bin/make -f
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+CFLAGS = -Wall -g
+ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
+CFLAGS += -O0
+else
+CFLAGS += -O2
+endif
+
+config.status: configure
+	dh_testdir
+	sh configure --prefix=/usr --localstatedir=/var \
+		--sysconfdir=/etc --mandir=/usr/share/man \
+		CFLAGS="$(CFLAGS)" LDFLAGS="-Wl,-z,defs"
+
+build: build-stamp
+
+build-stamp: config.status
+	dh_testdir
+	$(MAKE)
+	$(MAKE) check
+	touch $@
+
+clean:
+	dh_testdir
+	dh_testroot
+	rm -f build-stamp
+	test ! -f Makefile || $(MAKE) distclean
+	dh_clean
+
+install: build
+	dh_testdir
+	dh_testroot
+	dh_clean -k
+	dh_installdirs -A --list-missing
+	mkdir -p $(CURDIR)/debian/tmp/usr/lib
+	mkdir -p $(CURDIR)/debian/tmp/usr/share
+	$(MAKE) DESTDIR=$(CURDIR)/debian/tmp install
+	rm $(CURDIR)/debian/tmp/usr/share/man/man1/ucsdpsys_vm_license.1
+
+binary-indep: build install
+
+# Build architecture-dependent files here.
+binary-arch: build install
+	dh_testdir
+	dh_testroot
+	dh_installchangelogs
+	dh_installdocs -A
+	dh_install --fail-missing --sourcedir=debian/tmp
+	dh_installman -A
+	dh_strip
+	dh_compress -A
+	dh_fixperms
+	dh_shlibdeps
+	dh_installdeb
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
+
+binary: binary-indep binary-arch
+
+.PHONY: build clean binary-indep binary-arch binary install

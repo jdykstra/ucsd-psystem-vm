@@ -1,0 +1,395 @@
+/*
+ * UCSD p-System virtual machine
+ * Copyright (C) 2006, 2010 Peter Miller
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or (at
+ * your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+function defined-or-null =
+{
+    if [defined [@1]] then
+        return [[@1]];
+}
+
+set mkdir;
+set unlink;
+set time-adjust;
+
+awk = gawk;
+
+/*
+ * The first item in search list should be the absolute path of the
+ * current directory.  Assume that it is.
+ */
+search_list = .;
+search_tmp = [tail [split ':' [search_path]]];
+
+/*
+ * Try to shorten the search path in command lines, too.
+ *
+ * This takes a little getting used to....
+ * 1. For development builds, the search path is dev dir, then branch bl,
+ *    then ... project bl.  Thus, bl in a dev dir winds up pointing to
+ *    the branch reporitory.
+ * 2. For integration builds, Aegis deliberately omits the branch
+ *    baseline from the path, but includes the branch's parents and
+ *    ancestors.  Thus, bl in an int dir winds up pointing to the
+ *    branch's parent's reporitory.
+ * The idea is that integration builds in a branch are like a
+ * development build of the branch's dev dir.
+ */
+search_name = bl;
+loop
+{
+    search_dir = [head [search_tmp]];
+    if [not [search_dir]] then
+        loopstop;
+    search_tmp = [tail [search_tmp]];
+
+    if [not [exists [search_name]]] then
+        ln -s [search_dir] [search_name]
+            set clearstat;
+    search_list = [search_list] [search_name];
+    search_name = [search_name]bl;
+}
+
+/*
+ * determine the short version:
+ * no change or delta number
+ */
+version_short = [fromto %1.C%2 %1 [subst D C [version]]];
+
+version_shorter = [split "." [version_short]] _ _;
+version_shorter = [unsplit "." [word 1 [version_shorter]]
+    [word 2 [version_shorter]]];
+project_short = [fromto %.[version_short] % [project]];
+project_minus = [project_short]-[version_short];
+
+change_source_files = ;
+#include-cooked-nowarn etc/cook/change_files.[version]
+etc/cook/change_files.[version]:
+    set shallow nodefault
+{
+    echo "'change_source_files ='" > [target];
+    aegis -l cf -p [project] -c [change] -terse
+        >> [target];
+    echo "';'" >> [target];
+}
+project_source_files = ;
+#include-cooked-nowarn etc/cook/project_files.[version]
+etc/cook/project_files.[version]:
+    set shallow nodefault
+{
+    echo "'project_source_files ='" > [target];
+    aegis -l pf -p [project] -c [change] -terse
+        >> [target];
+    echo "';'" >> [target];
+}
+source_files = [sort [project_source_files] [change_source_files]];
+
+/*
+ * Speed up graph building by stating the leaves explictly.
+ * This also gives more useful error messages.
+ */
+if [count [project_source_files]] then
+if [count [change_source_files]] then
+{
+    leaf_file_accept = [project_source_files] [change_source_files];
+    leaf_pattern_accept = /%0%;
+}
+
+debug = /* -g */ ;
+    /* g++ takes forever if you say -g for complex template usage */
+
+all = ;
+
+/* the right hand side is deferred until triggered */
+all: [all];
+
+integration-build-targets = ;
+integration-build-targets: [integration-build-targets];
+
+/*
+ * Howto use GNU Autoconf.
+ */
+libs = ;
+x_cflags = ;
+x_pre_libs = ;
+x_libs = ;
+x_extra_libs = ;
+#include [resolve etc/autoconf.cook]
+
+/*
+ * Generate lists of object files for the library.
+ */
+lib/[project_short]_obj =
+    [fromto %0%.c [arch]/%0%.o
+        [match_mask lib/%0%.c [source_files]]
+    ]
+    [fromto %0%.y [arch]/%0%.gen.o
+        [match_mask lib/%0%.y [source_files]]
+    ]
+    [fromto %0%.c.in [arch]/%0%.o
+        [match_mask lib/%0%.c.in [source_files]]
+    ]
+    ;
+
+/*
+ * The ucsdpsys_xturtleserver program needs the X11 include files and
+ * libraries, but all the others do not.
+ *
+ucsdpsys_xturtleserver_libs_extra =
+    [x_pre_libs] [x_libs] [x_extra_libs] ;
+ucsdpsys_xturtleserver_cc_flags_extra =
+    [x_cflags] ;
+ */
+
+/*
+ * Generate lists of object files for programs
+ */
+program_list =
+    [stringset
+        [fromto %1/%2 %1 [match_mask %1/main.c [source_files]]]
+    ];
+loop program = [program_list]
+{
+    [program]_obj =
+        [fromto %0%.c [arch]/%0%.o
+            [match_mask [program]/%0%.c [source_files]]
+        ]
+        [fromto %0%.y [arch]/%0%.gen.o
+            [match_mask [program]/%0%.y [source_files]]
+        ]
+        ;
+    [program]_libs = [arch]/lib/lib[project_short].a ;
+    all += [arch]/bin/[program];
+}
+
+if [match %1C%2 [version]] then
+{
+    baseline = bl;
+}
+else
+{
+    /*
+     * this is essential so that aeipass does the right thing
+     *
+     * It also means that generated files (e.g. from objen) have consistent
+     * mod-times after integration, sop everythign does not immediately
+     * re-build.
+     */
+    set time-adjust-back;
+    all += integration-build-targets;
+}
+
+
+/*
+ * Note: this must come *after* the etc/autoconf.cook include.
+ */
+if [not [defined cc]] then
+    cc = gcc;
+cc_include_flags =
+    [prepost "-I" "" [search_list]]
+    [prepost "-I" /[arch] [search_list]]
+    ;
+if [not [defined cc_flags]] then
+    cc_flags = -O [debug];
+cc_flags =
+    [cc_flags] -Wall -Werror -Wextra -Wshadow
+    -DTURTLEGRAPHICS
+    ;
+if [not [defined ld_flags]] then
+    ld_flags = [debug];
+
+
+[arch]/%1/%0%.o: %1/%0%.c
+{
+    [cc]
+        [cc_include_flags]
+        [cc_flags]
+        [defined-or-null %1_cc_flags_extra]
+        -c [resolve %1/%0%.c]
+        -o [target]
+    set meter;
+}
+
+
+[arch]/%1/%0%.o: [arch]/%1/%0%.c
+{
+    [cc]
+        [cc_include_flags]
+        [cc_flags] -c [resolve [arch]/%1/%0%.c] -o [target]
+    set meter;
+}
+
+
+c_incl = c_incl;
+
+%1/%0%.c.d: %1/%0%.c
+    set no-cascade
+{
+    [c_incl] -nc -ns -nrec
+        [cc_include_flags]
+        [resolve %1/%0%.c]
+        -prefix "'cascade %1/%0%.c ='"
+        -suffix "';'"
+        -nsri
+        [prepost "-rlp=" "" [search_list]]
+        -slp [arch] "'[arch]'"
+        -o [target];
+}
+
+%1/%0%.h.d: %1/%0%.h
+    set no-cascade
+{
+    [c_incl] -nc -ns -nrec
+        [cc_include_flags]
+        [resolve %1/%0%.h]
+        -prefix "'cascade %1/%0%.h ='"
+        -suffix "';'"
+        -nsri
+        [prepost "-rlp=" "" [search_list]]
+        -slp [arch] "'[arch]'"
+        -o [target];
+}
+
+%1/%0%.c.d: %1/%0%.c
+    set no-cascade
+{
+    [c_incl] -nc -ns -nrec
+        [prepost -I /%1 [search_list]]
+        [resolve %1/%0%.c]
+        -prefix "'cascade %1/%0%.c ='"
+        -suffix "';'"
+        -nsri
+        [prepost "-rlp=" "" [search_list]]
+        -slp [arch] "'[arch]'"
+        -o [target];
+}
+
+cc_dep_files =
+    [fromto %0%.h %0%.h.d [match_mask %1/%0%.h [source_files]]]
+    [fromto %0%.c %0%.c.d [match_mask %1/%0%.c [source_files]]]
+    [fromto %0%.y %0%.gen.c.d [match_mask %1/%0%.y [source_files]]]
+    ;
+
+#include-cooked-nowarn [cc_dep_files]
+
+[arch]/bin/%: [%_obj] [%_libs]
+    set gate-first
+    if [defined %_obj]
+{
+    [cc] [ld_flags] -o [target] [resolve [%_obj] [%_libs]] [libs]
+        [defined-or-null %_libs_extra];
+}
+
+[arch]/%0lib%.a: [%0%_obj]
+{
+    ar cq [target] [resolve [%0%_obj]];
+    if [find_command ranlib] then
+        ranlib [target];
+}
+
+/*
+ * Explicit include dependencies.
+ */
+#if [count [cc_dep_files]]
+[cc_dep_files]: [arch]/lib/config.h;
+#endif
+
+
+/*
+ * The version stamp is to be updated for every
+ * integration and development build.
+ * (The integrate_begin_command in the config file
+ * deletes them for integration builds.)
+ */
+
+lib/patchlevel.h:
+    set shallow
+{
+    copyright_years =
+        [collect
+            aegis -list version -p [project] -c [change]
+            | [awk] "-F'[[\\\\]]'" "'/^copyright_years/{print $2}'"
+        ];
+    echo "'#define PATCHLEVEL \""[version]"\"'" > [target];
+    echo "'#define COPYRIGHT_YEARS \""[copyright_years]"\"'" >> [target];
+}
+
+/*
+ * Build the version include, but not too often.
+ */
+etc/version.so:
+    set ['if' [or [not [defined baseline] ] [not [exists bl/etc/version.so
+        ] ] ] 'then' shallow]
+{
+    copyright_years =
+        [collect
+            aegis -list version -p [project] -c [change]
+            | [awk] "-F'[[\\\\]]'" "'/^copyright_years/{print $2}'"
+        ];
+    echo "'.ds V) "[version]"'" > [target];
+    echo "'.ds v) "[version_short]"'" >> [target];
+    aegis -list version -p [project] -c [change]
+        | [awk] -F'\'"\'' "'/previous/{print $2}'"
+        | [awk] -F. "'{print \".ds w) \"$1\".\"$2}'"
+        >> [target];
+    echo "'.ds Y) "[copyright_years]"'" >> [target];
+}
+
+
+/*
+ * Catch 22: If the relationship between a target and a derived ingredient
+ * appears only in a derived cookbook, it is likely that a clean build
+ * (solely from primary source files) will fail.  It is recommended that
+ * relationships such as this be placed in a primary source cookbook.
+ */
+cascade lib/version_stamp.c = lib/patchlevel.h ;
+
+#include [resolve etc/tags.cook]
+#include [resolve etc/documentation.cook]
+#include [resolve etc/metrics.cook]
+/* #include [resolve etc/yacc.cook] */
+
+/*
+ * Look for other directory-specific cookbooks.
+ */
+module_cook_list = [match_mask "%0module.cook" [source_files]];
+#if [count [module_cook_list]]
+#include [resolve [module_cook_list]]
+#endif
+
+/* -------------------------------------------------------------------------
+ *
+ * How to build scripts.
+ */
+scripts = [match_mask script/% [source_files]];
+scripts = [fromto %0%.in %0% [scripts]];
+
+all += script-targets;
+
+script-targets: [fromto script/% [arch]/bin/% [scripts]];
+
+[arch]/bin/%: script/%
+{
+    cp [resolve script/%] [target];
+    chmod a+rx [target];
+}
+
+[arch]/bin/%: [arch]/script/%
+{
+    cp [resolve [arch]/script/%] [target];
+    chmod a+rx [target];
+}

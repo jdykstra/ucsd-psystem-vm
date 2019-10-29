@@ -1,0 +1,350 @@
+.\"
+.\" UCSD p-System virtual machine
+.\" Copyright (C) 2000 Mario Klebsch
+.\" Copyright (C) 2006, 2010 Peter Miller
+.\"
+.\" This program is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 2 of the License, or
+.\" (at your option) any later version.
+.\"
+.\" This program is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\" GNU General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License along
+.\" with this program. If not, see <http://www.gnu.org/licenses/>
+.\"
+.ds n) ucsdpsys_vm
+.TH "ucsdpsys_vm" 1 ucsd-psystem-vm "Reference Manual"
+.SH NAME
+ucsdpsys_vm \- UCSD p-System virtual machine
+.XX "ucsdpsys_vm(1)" "UCSD p-System virtual machine"
+.SH SYNOPSIS
+\fB\*(n)\fP [ \f[I]option\fP... ]
+.SH DESCRIPTION
+The \fI\*(n)\fP program is a UCSD p-System virtual machine.  It is
+able to run UCSD Pascal II.0
+(an ancient programming environment)
+.\" and Apple ][ Pascal (equally ancient)
+on today's computer systems.
+.SH OPTIONS
+The following options are understood:
+.TP 8n
+\fB\-a\fP
+.TP 8n
+\fB\-\-apple\fP
+execute the system in Apple compatibility mode.
+In Apple compatibility mode, the P-system is initialized using the
+same addresses as the original Apple ][ p-System.
+.TP 8n
+\fB\-b\fP \f[I]batch-file\fP
+.TP 8n
+\fB\-\-batch=\fP\f[I]filename\fP
+Starts the system in batch mode.
+Input is read from \f[I]batch-file\fP, output is written to the standard output
+(unless \fB\-x\fP is used).
+If '\-' is specified as \f[I]batch-file\fP, the standard input is used.
+.TP 8n
+\fB\-D\fP
+.TP 8n
+\fB\-\-no\-emulation\fP
+.RS
+By default, every read of the memory word containing the system date
+is faked at run-time to have the correct date (see \f[I]time\fP(2) and
+\f[I]localtime\fP(3) for more information).  This ensures disk file
+date stamps are always up-to-date, without manual intervention (via the
+Filer's Date command).
+.PP
+This only makes sense if the stack frame for segment 0 procedure 1 is
+sufficiently large (local address 67).  The emulation is not done for
+stack frames that are too small.  This is a sufficient heuristic to
+avoid stack scribbles in the DIAGNOSTIC program.
+.PP
+The terminal size (width and height) in the CRTINFO member of the SYSCOM
+area are also faked at run-time, so that when virtual terminals, such
+as \f[I]xterm\fP(1) and \f[I]gnome-terminal\fP(1), are resized the
+CRTINFO.WIDTH and CRTINFO.HEIGHT fields track the actual size of the
+terminal.
+.PP
+This option may be used to suppress the date and crtinfo emulation.
+.RE
+.TP 8n
+\fB\-d\fP
+.TP 8n
+\fB\-\-dump\fP
+This options causes the memory images to be written out to a file
+even when there is no panic.
+.TP 8n
+\fB\-f\fP \f[I]volume-file\fP
+.TP 8n
+\fB\-\-forget=\fP\f[I]filename\fP
+Uses \f[I]volume-file\fP for I/O on disk volumes in \f[I]forget-changes\fP
+mode, which discards all changes to the volume, when \fI\*(n)\fP exits.
+This option may be given more than once.
+.TP 8n
+\fB\-g\fP
+.TP 8n
+\fB\-\-trace-max\fP
+Enter P-code debug mode.
+.TP 8n
+\fB\-n\fP \f[I]system-name\fP
+.TP 8n
+\fB\-\-name=\fP\f[I]system-name\fP
+Uses \f[I]system-name\fP instead of \f[CW]SYSTEM.PASCAL\fP.  In contrast
+to the original Apple system, the system file is found on any of the
+volumes.
+.TP 8n
+\fB\-r\fP \f[I]volume-file\fP
+.TP 8n
+\fB\-\-read=\fP\f[I]volume-file\fP
+.It Fl r Ar volume-file
+Uses \f[I]volume-file\fP for I/O on disk volumes in \f[I]read-only\fP mode.
+This option may be given more than once.
+.TP 8n
+\fB\-t\fP \f[I]filename\fP
+.TP 8n
+\fB\-\-trace-file=\fP\f[I]file-name\fP
+Write the p-instructions executed to \f[I]trace-file\fP.  This recorded
+instructions can be compared to a recording made on an Apple ][
+emulator.  If '\-' is specified as \f[I]trace-file\fP, the data is written
+to the standard output.
+.TP 8n
+\fB\-V\fP
+.TP 8n
+\fB\-\-version\fP
+prints the version number and exits
+.TP 8n
+\fB\-w\fP \f[I]volume-file\fP
+.TP 8n
+\fB\-\-write=\fP\f[I]filename\fP
+Uses \f[I]volume-file\fP for I/O on disk volumes in \f[I]read-write\fP mode.
+This option may be given more than once.
+.TP 8n
+\fB\-x\fP
+.TP 8n
+\fB\-\-xterm\fP
+Start an \f[I]xterm\fP(1) for \f[CW]CONSOLE:\fP and \f[CW]SYSTERM:\fP.
+Especially useful when using the debugger and its messages are output
+to the standard output and stderr.
+.\" ------------------------------------------------------------------------
+.SH EXAMPLES
+A simple method of working with the UCSD p-System
+is to use \fI\*(n)\fP with
+\f[CW]work.svol\fP
+as #4: in read-write mode and
+\f[CW]system.svol\fP
+as #5: in read-only mode.
+.PP
+.RS
+.ft CW
+.nf
+$ \f[CB]\*(n) -w work.svol -r system.svol\fP
+$
+.fi
+.ft R
+.RE
+.PP
+To use the UCSD system disk image on #4:,
+the UCSD utility disk image on #5:,
+and your work disk image on #9:
+you can execute
+.PP
+.RS
+.ft CW
+.nf
+$ \f[CB]ucsdpsys_mkfs --label=work work.vol\fP
+$ \f[CB]\*(n) -f system.vol -r utility.vol -w work.vol\fP
+$
+.fi
+.ft R
+.RE
+.PP
+Using the disk images supplied by the ucsd-psystem-os project.
+.\" ------------------------------------------------------------------------
+.SS ucsd-psystem-os
+There is a project that works fro the original UCSD II.0 source code,
+it may be found at
+.br
+http://ucsd-psystem-os.sourceforge.net/
+.PP
+By using this project, you have access to disk images that are not
+ethically questionable in any way, because UCSD issued a non-commercial
+royalty-free license in 2006.
+.PP
+You also have access to the source code, should you want to know how
+something works, or even to fix a bug.
+The ucsd-psystem-os project encourages contributions.
+.\" ------------------------------------------------------------------------
+.SS system.charset
+You need \f[CW]SYSTEM.CHARSET\fP file from your Apple Pascal system disk
+in order to use Turtle Graphics.  This file contains the bit-mapped
+front for characters.  A utility called \f[I]ucsdpsys_disk\fP(1) can
+be used to extract \f[CW]SYSTEM.CHARSET\fP from an UCSD disk image.
+.PP
+.RS
+.ft CW
+.nf
+$ \f[CB]ucsdpsys_disk -f system.vol --get system.charset\fP
+$
+.fi
+.ft R
+.RE
+.PP
+There is an alternative that allows you to create a system.charset
+from an X11 font, or even create your own.
+The \f[I]bigtext\fP(1) command comes from the
+\f[CW]http://bigtext.sourceforge.net\fP project.
+.PP
+.RS
+.nf
+.ft CW
+$ \f[CB]bigtext --apple-pascal fixed > system.charset.text\fP
+$ \f[CB]ucsdpsys_charset -e system.charset.text system.charset\fP
+$
+.ft R
+.fi
+.RE
+.PP
+You can also turn a \f[CW]SYSTEM.CHARSET\fP file into text so that you
+can edit it by using
+.RS
+.ft CW
+.nf
+$ \f[CB]ucsdpsys_charset -d system.charset system.charset.text\fP
+$
+.fi
+.ft R
+.RE
+.\" ------------------------------------------------------------------------
+.SS Disk Images
+You will need UCSD disk images.
+You may find disk images on
+.PP
+.RS
+http://miller.emu.id.au/pmiller/ucsd-psystem-os/disk-image/
+.RE
+.PP
+You can use \f[I]wget\fP(1) to fetch the files
+.PP
+.RS
+.nf
+.ft CW
+$ \f[CB]wget http://miller.emu.id.au/pmiller/ucsd-psystem-os/\e
+disk-image/system.vol\fP
+$ \f[CB]wget http://miller.emu.id.au/pmiller/ucsd-psystem-os/\e
+disk-image/utility.vol\fP
+$
+.ft R
+.fi
+.RE
+.\" ------------------------------------------------------------------------
+.SH RUNNING
+To boot the UCSD Pascal system, you do not need SYSTEM.APPLE (it is
+replaced by this p-code interpreter).  So you just can boot \f[CW]SYSTEM:\fP
+from \f[CW]system.vol\fP without any other files.
+.PP
+When using the \f[CW]ucsd-psystem-os\fP project's disk images, the
+\f[CW]SYSTEM.LIBRARY\fP provides access to this p-system interpreter's
+implementation of Turtle Graphics unit, Aplle Stuff unit, and
+Transcendental unit.
+.PP
+Volumes cannot be mounted or unmounted when the system is running.
+You have to specify which images are used on the units when
+starting the virtual machine.  The first image will be unit #4, the
+second one will be unit #5.  Units #6, #7 and #8 are reserved for
+PRINTER:, REMIN: and REMOUT:.
+So, the third image will be unit #9 and so on.
+.PP
+The system has three modes for the volumes: Read-Only, Read-Write and
+Forget-Changes.  The Forget-Changes mode is read-write, but the data
+will not be written back to the (UNIX) volume image file.  If the virtual
+machine is exited, all changes to \[lq]forget\fP volumes are lost.
+.\" ------------------------------------------------------------------------
+.SH "DEBUGGER COMMANDS"
+When you run the virtual machine using the \f[I]ucsdpsys_vm -g\fP option,
+the following command are available:
+.TP 8n
+\fBp\fP
+Print evaluation stack
+.TP 8n
+\fBd\fP \f[I]from\fP \f[I]to\fP
+Dump memory in HEX and ASCII
+.TP 8n
+\fBl\fP \f[I]SegNo\fP \f[I]ProcNo\fP
+Disassemble P-code
+.TP 8n
+\fBt\fP
+Dump call stack including local variable and arguments
+.TP 8n
+\fBv\fP
+Dump local variable area of the current procedure/function
+.TP 8n
+\fBg\fP
+Go (start execution)
+.TP 8n
+\fBn\fP
+Execute next instruction,
+do not trace subroutines.
+.TP 8n
+\fBf\fP
+finish current procedure/function,
+execution stops at the first instruction after returning.
+.TP 8n
+\fBr\fP
+Show registers
+.TP 8n
+\fBq\fP
+Quit interpreter
+.\" ------------------------------------------------------------------------
+.SH "SEE ALSO"
+.TP 8n
+\f[I]ucsdpsys_disk\fP(1)
+read and write p-System disk images
+(from the ucsd-psystem-fs project, http://ucsd-psystem-fs.sourceforge.net/)
+.TP 8n
+\f[I]ucsdpsys_mkfs\fP(1)
+Create new disk images
+(from the ucsd-psystem-fs project).
+.TP 8n
+\f[I]ucsdpsys_charset\fP(1)
+encode and decode system.charset files.
+(from the ucsd-psystem-xc project, http://ucsd-psystem-xc.sourceforge.net/)
+.TP 8n
+UCSD p-System Reference Manual
+http://miller.emu.id.au/pmiller/ucsd-psystem-um/
+.TP 8n
+The UCSD P-System Museum
+http://www.threedee.com/jcm/psystem/index.html
+.\" ------------------------------------------------------------------------
+.SH WISH LIST
+FIXME: This section probably belongs in the \f[CW]README\fP file.
+.TP 2m
+\(bu
+better volume handling (especially mounting/unmounting disks)
+.TP 2m
+\(bu
+REMIN: and REMOUT:
+.TP 2m
+\(bu
+BREAK-handling
+.TP 2m
+\(bu
+removing (or hiding) the debug stuff
+.TP 2m
+\(bu
+resizing the TURTLEGRAPHICS screen
+.TP 2m
+\(bu
+adding more colors to TURTLEGRAPHICS
+.TP 2m
+\(bu
+better documentations (in the source code as well as in separate files)
+.TP 2m
+\(bu
+Porting the device drivers (mainly the console and turtlegraphics) to
+Windows and MacOS (could be obsolete with MacOS X)
+.\" ------------------------------------------------------------------------
+.so man/man1/z_exit.so
+.so man/man1/z_copyright.so

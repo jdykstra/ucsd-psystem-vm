@@ -1,0 +1,83 @@
+/*
+ *      aegis - project change supervisor
+ *      This file is in the Public Domain, 2005 Peter Miller.
+ *
+ * The entries for the commands are listed below.  The aevst Simple
+ * Version Tool is just about ideal for Aegis to use (well, you'd expect
+ * that, with a name like aesvt).
+ *
+ * Binary files are fully supported.
+ *
+ * The ${quote ...} construct is used to quote filenames which contain
+ * shell special characters.  A minimum of quoting is performed, so if
+ * the filenames do not contain shell special characters, no quotes will
+ * be used.
+ */
+
+/*
+ * This command is used to get a specific edit back from history.
+ * This command is always executed as the project owner.
+ * The following substitutions are available:
+ *
+ * ${History}
+ *      absolute path of the history file
+ * ${Edit}
+ *      edit number, as given by history_\%query_\%command
+ * ${Output}
+ *      absolute path of the destination file
+ */
+history_get_command =
+        "aesvt -check-out -edit ${quote $edit} "
+        "-history ${quote $history} "
+        "-f ${quote $output}"
+        ;
+
+/*
+ * This command is used to add a new "top-most" entry to the history file.
+ * This command is always executed as the project owner.
+ * The following substitutions are available:
+ *
+ * ${Input}
+ *      absolute path of source file
+ * ${History}
+ *      absolute path of history file
+ *
+ * It is essential that the history_put_command be identical to the
+ * the history_create_command for branching to work correctly.
+ */
+history_put_command =
+        "aesvt -check-in "
+        "-history ${quote $history} "
+        "-f ${quote $input} "
+        "Aegis-Version=${quote $version} "
+        "Change-Uuid=${quote ${change uuid}} "
+        "Delta-Uuid=${quote ${change delta_uuid}} "
+        "Description=${quote ${change description}} "
+        "Filename=${quote $filename} "
+        "User=${quote $developer} "
+        ;
+
+/*
+ * This command is used to query what the history mechanism calls the top-most
+ * edit of a history file.  The result may be any arbitrary string, it need not
+ * be anything like a number, just so long as it uniquely identifies the edit
+ * for use by the history_get_command at a later date.  The edit number is to
+ * be printed on the standard output.  This command is always executed as the
+ * project owner.
+ *
+ * The following substitutions are available:
+ *
+ * ${History}
+ *      absolute path of the history file
+ */
+history_query_command =
+        "aesvt -query "
+        "-history ${quote $history}"
+        ;
+
+/*
+ * The history_content_limitation field describes the content style
+ * which the history tool is capable of working with.  The aesvt tool is
+ * fully capable of hosting binary files.
+ */
+history_content_limitation = binary_capable;

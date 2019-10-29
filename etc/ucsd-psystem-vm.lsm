@@ -1,0 +1,69 @@
+.\"
+.\" UCSD p-System virtual machine
+.\" Copyright (C) 2006, 2010 Peter Miller
+.\"
+.\" This program is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 2 of the License, or
+.\" (at your option) any later version.
+.\"
+.\" This program is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+.\" General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License
+.\" along with this program. If not, see <http://www.gnu.org/licenses/>.
+.\"
+.\" LSM = Linux Software Module, an archive description file
+.\"
+.\" Descriptions of the LSM file format can be found in the
+.\" /pub/Linux/docs directories of sunsite.unc.edu and tsx-11.mit.edu.
+.\"
+.ad l
+.hy 0
+.de SH
+.in 0
+.br
+\\$1
+'in 8n
+..
+.so etc/version.so
+.SH Begin3
+.SH Title:
+ucsd-psystem-vm
+.SH Version:
+\*(v)
+.SH Entered-date:
+.ds MO1 JAN
+.ds MO2 FEB
+.ds MO3 MAR
+.ds MO4 APR
+.ds MO5 MAY
+.ds MO6 JUN
+.ds MO7 JUL
+.ds MO8 AUG
+.ds MO9 SEP
+.ds MO10 OCT
+.ds MO11 NOV
+.ds MO12 DEC
+\n[dy]\*[MO\n[mo]]\n[yr]
+.SH Description:
+The \fIucsd-psystem-vm\fP package is a virtual machine for the UCSD p-System.
+The ucsd-psystem-vm package runs on almost any flavor of Unix, including Linux.
+.SH Keywords:
+UCSD, p-System, Pascal, virtual machine
+.SH Author:
+Peter Miller <pmiller@opensource.org.au>
+.SH Primary-site:
+http://ucsd-psystem-vm.sourceforge.net/
+.TS
+lf(CW) l.
+ucsd-psystem-vm-\*(v).README    Description, from the tar file
+ucsd-psystem-vm-\*(v).lsm       Description, LSM format
+ucsd-psystem-vm-\*(v).tar.gz    The complete sources.
+ucsd-psystem-vm-\*(v).pdf       Reference Manual, Acrobat format
+.TE
+.SH Copying-policy:
+GPL 2.0
+.SH End

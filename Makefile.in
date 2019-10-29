@@ -1,0 +1,488 @@
+#
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#
+#    W   W    A    RRRR   N   N   III  N   N  III  N   N   GGG
+#    W   W   A A   R   R  NN  N    I   NN  N   I   NN  N  G   G
+#    W   W  A   A  RRRR   N N N    I   N N N   I   N N N  G
+#    W W W  AAAAA  R R    N  NN    I   N  NN   I   N  NN  G  GG
+#    W W W  A   A  R  R   N   N    I   N   N   I   N   N  G   G
+#     W W   A   A  R   R  N   N   III  N   N  III  N   N   GGG
+#
+# Warning: DO NOT send patches which fix this file.  IT IS NOT
+# the original source file.  This file is GENERATED from the
+# Aegis repository file manifest.  If you find a bug in this
+# file, it could well be an Aegis bug.
+#
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#
+# @configure_input@
+#
+# The configure script generates 2 files:
+#	1. This Makefile
+#	2. lib/config.h
+# If you change this Makefile, you may also need to
+# change these files.  To see what is configured by the
+# configure script, search for @ in the Makefile.in
+# file.
+#
+# If you wish to reconfigure the installation
+# directories it is RECOMMENDED that you re-run the
+# configure script.
+#
+# Use ``./configure --help'' for a list of options.
+#
+
+#
+# directory containing the source
+#
+srcdir = @srcdir@
+VPATH = @srcdir@
+
+#
+# the name of the install program to use
+#
+INSTALL = @INSTALL@
+INSTALL_PROGRAM = @INSTALL_PROGRAM@
+INSTALL_DATA = @INSTALL_DATA@
+INSTALL_SCRIPT = @INSTALL_SCRIPT@
+
+#
+# the name of the compiler to use
+#
+CC = @CC@
+
+#
+# The compiler flags to use
+#
+CFLAGS = @CFLAGS@ @X_CFLAGS@
+
+#
+# The preprocessor flags to use
+#
+CPPFLAGS = @CPPFLAGS@
+
+#
+# The linker flags to use
+#
+LDFLAGS = @LDFLAGS@
+
+#
+# prefix for installation path
+#
+prefix = @prefix@
+exec_prefix = @exec_prefix@
+
+#
+# where to put the executables
+#
+# On a network, this would only be shared between machines
+# of identical cpu-hw-os flavour.  It can be read-only.
+#
+# The $(DESTDIR) is for packaging.
+#
+bindir = $(DESTDIR)@bindir@
+
+#
+# where to put the manuals
+#
+# On a network, this would be shared between all machines
+# on the network.  It can be read-only.
+#
+# The $(DESTDIR) is for packaging.
+#
+mandir = $(DESTDIR)@mandir@
+
+# define this to silence ./configure warning
+DATAROOTDIR = $(DESTDIR)@datarootdir@
+
+#
+# where to put the supplementary package executables
+#
+# On a network, this would be shared between all
+# machines of identical architecture.  It can be
+# read-only.
+#
+# The $(DESTDIR) is for packaging.
+#
+LIBDIR = $(DESTDIR)@libdir@
+
+#
+# extra libraries required for your system
+#
+LIBS = @X_PRE_LIBS@ @LIBS@ @X_LIBS@ @X_EXTRA_LIBS@
+#
+# shell to use to run tests and commands
+#
+SH = @SH@
+
+#
+# program used to place index within libraries
+#
+RANLIB = @RANLIB@
+AR = ar
+
+#
+# Set GROFF to the name of the roff command on your
+# system, usually "groff" or "troff" or "nroff"
+#
+GROFF = @GROFF@
+
+#
+# Set SOELIM to the name of the roff proprocessor command
+# on your system, usually "soelim" or "gsoelim"
+#
+SOELIM = @SOELIM@
+
+# -------------------------------------------------------------
+# You should not need to change anything below this line.
+
+#
+# The default target
+#
+the-default-target: all
+
+bin2c/main.o: bin2c/main.c lib/progname.h lib/version.h
+	$(CC) $(CPPFLAGS) $(CFLAGS) -I. -c bin2c/main.c
+	mv main.o bin2c/main.o
+
+etc/building.ps: etc/building.man etc/version.so man/man1/z_copyright.so
+	$(GROFF) -s -I. -t -man etc/building.man > $@
+
+etc/change_log.ps: etc/change_log.man etc/new.0.10.so etc/new.0.11.so etc/new.0.6.so etc/new.0.7.so etc/new.0.8.so etc/new.0.9.so etc/new.so etc/version.so
+	$(GROFF) -s -I. -t -man etc/change_log.man > $@
+
+etc/howto.conf: etc/howto.conf.in ./config.status
+	CONFIG_FILES=$@:etc/howto.conf.in CONFIG_HEADERS= $(SH) ./config.status
+
+etc/readme.ps: etc/readme.man etc/new.0.10.so etc/new.0.11.so etc/new.0.6.so etc/new.0.7.so etc/new.0.8.so etc/new.0.9.so etc/new.so etc/version.so man/man1/z_copyright.so
+	$(GROFF) -s -I. -t -man etc/readme.man > $@
+
+etc/reference.ps: etc/reference.man etc/building.man etc/logo.so etc/new.0.10.so etc/new.0.11.so etc/new.0.6.so etc/new.0.7.so etc/new.0.8.so etc/new.0.9.so etc/new.so etc/readme.man etc/ref-index.so etc/ref-parts.so etc/ref-toc.so etc/version.so man/man1/ucsdpsys_svolcvt.1 man/man1/ucsdpsys_svolio.1 man/man1/ucsdpsys_vm.1 man/man1/ucsdpsys_vm_license.1 man/man1/ucsdpsys_xturtleserver.1 man/man1/z_copyright.so man/man1/z_exit.so
+	$(GROFF) -s -I. -t -man etc/reference.man > $@
+
+float_conv/main.o: float_conv/main.c lib/progname.h lib/version.h
+	$(CC) $(CPPFLAGS) $(CFLAGS) -I. -c float_conv/main.c
+	mv main.o float_conv/main.o
+
+lib/byte_sex.o: lib/byte_sex.c lib/byte_sex.h
+	$(CC) $(CPPFLAGS) $(CFLAGS) -I. -c lib/byte_sex.c
+	mv byte_sex.o lib/byte_sex.o
+
+lib/diskio.o: lib/diskio.c lib/byte_sex.h lib/diskio.h lib/gcc_attributes.h lib/memory.h lib/psystem.h
+	$(CC) $(CPPFLAGS) $(CFLAGS) -I. -c lib/diskio.c
+	mv diskio.o lib/diskio.o
+
+lib/memory.o: lib/memory.c lib/byte_sex.h lib/gcc_attributes.h lib/memory.h lib/pcode.h lib/psystem.h
+	$(CC) $(CPPFLAGS) $(CFLAGS) -I. -c lib/memory.c
+	mv memory.o lib/memory.o
+
+lib/progname.o: lib/progname.c lib/progname.h
+	$(CC) $(CPPFLAGS) $(CFLAGS) -I. -c lib/progname.c
+	mv progname.o lib/progname.o
+
+lib/version.o: lib/version.c lib/progname.h lib/version.h lib/version_stamp.h
+	$(CC) $(CPPFLAGS) $(CFLAGS) -I. -c lib/version.c
+	mv version.o lib/version.o
+
+lib/version_stamp.o: lib/version_stamp.c lib/patchlevel.h lib/version_stamp.h
+	$(CC) $(CPPFLAGS) $(CFLAGS) -I. -c lib/version_stamp.c
+	mv version_stamp.o lib/version_stamp.o
+
+man/man1/.mandir: man/.mandir
+	-$(INSTALL) -m 0755 -d $(mandir)/man1
+	@-test -d $(mandir)/man1 && touch $@
+	@sleep 1
+
+man/.mandir:
+	-$(INSTALL) -m 0755 -d $(mandir)
+	@-test -d $(mandir) && touch $@
+	@sleep 1
+
+$(mandir)/man1/ucsdpsys_svolcvt.1: man/man1/ucsdpsys_svolcvt.1 etc/version.so man/man1/z_copyright.so man/man1/z_exit.so man/man1/.mandir
+	$(SOELIM) -I. -Iman/man1 man/man1/ucsdpsys_svolcvt.1 > tmp
+	$(INSTALL_DATA) tmp $@
+	@rm -f tmp
+
+$(mandir)/man1/ucsdpsys_svolio.1: man/man1/ucsdpsys_svolio.1 etc/version.so man/man1/z_copyright.so man/man1/z_exit.so man/man1/.mandir
+	$(SOELIM) -I. -Iman/man1 man/man1/ucsdpsys_svolio.1 > tmp
+	$(INSTALL_DATA) tmp $@
+	@rm -f tmp
+
+$(mandir)/man1/ucsdpsys_vm.1: man/man1/ucsdpsys_vm.1 etc/version.so man/man1/z_copyright.so man/man1/z_exit.so man/man1/.mandir
+	$(SOELIM) -I. -Iman/man1 man/man1/ucsdpsys_vm.1 > tmp
+	$(INSTALL_DATA) tmp $@
+	@rm -f tmp
+
+$(mandir)/man1/ucsdpsys_vm_license.1: man/man1/ucsdpsys_vm_license.1  man/man1/.mandir
+	$(SOELIM) -I. -Iman/man1 man/man1/ucsdpsys_vm_license.1 > tmp
+	$(INSTALL_DATA) tmp $@
+	@rm -f tmp
+
+$(mandir)/man1/ucsdpsys_xturtleserver.1: man/man1/ucsdpsys_xturtleserver.1 etc/version.so man/man1/z_copyright.so man/man1/z_exit.so man/man1/.mandir
+	$(SOELIM) -I. -Iman/man1 man/man1/ucsdpsys_xturtleserver.1 > tmp
+	$(INSTALL_DATA) tmp $@
+	@rm -f tmp
+
+bin/test_prelude: script/test_prelude .bin
+	cp script/test_prelude $@
+	chmod a+rx $@
+
+t0001a: test/00/t0001a.sh all
+	PATH=`pwd`/bin:$$PATH $(SH) test/00/t0001a.sh
+
+t0002a: test/00/t0002a.sh all
+	PATH=`pwd`/bin:$$PATH $(SH) test/00/t0002a.sh
+
+t0003a: test/00/t0003a.sh all
+	PATH=`pwd`/bin:$$PATH $(SH) test/00/t0003a.sh
+
+t0005a: test/00/t0005a.sh all
+	PATH=`pwd`/bin:$$PATH $(SH) test/00/t0005a.sh
+
+t0006a: test/00/t0006a.sh all
+	PATH=`pwd`/bin:$$PATH $(SH) test/00/t0006a.sh
+
+t0007a: test/00/t0007a.sh all
+	PATH=`pwd`/bin:$$PATH $(SH) test/00/t0007a.sh
+
+t0008a: test/00/t0008a.sh all
+	PATH=`pwd`/bin:$$PATH $(SH) test/00/t0008a.sh
+
+t0009a: test/00/t0009a.sh all
+	PATH=`pwd`/bin:$$PATH $(SH) test/00/t0009a.sh
+
+t0010a: test/00/t0010a.sh all
+	PATH=`pwd`/bin:$$PATH $(SH) test/00/t0010a.sh
+
+t0011a: test/00/t0011a.sh all
+	PATH=`pwd`/bin:$$PATH $(SH) test/00/t0011a.sh
+
+t0012a: test/00/t0012a.sh all
+	PATH=`pwd`/bin:$$PATH $(SH) test/00/t0012a.sh
+
+t0015a: test/00/t0015a.sh all
+	PATH=`pwd`/bin:$$PATH $(SH) test/00/t0015a.sh
+
+t0016a: test/00/t0016a.sh all
+	PATH=`pwd`/bin:$$PATH $(SH) test/00/t0016a.sh
+
+t0017a: test/00/t0017a.sh all
+	PATH=`pwd`/bin:$$PATH $(SH) test/00/t0017a.sh
+
+t0018a: test/00/t0018a.sh all
+	PATH=`pwd`/bin:$$PATH $(SH) test/00/t0018a.sh
+
+t0019a: test/00/t0019a.sh all
+	PATH=`pwd`/bin:$$PATH $(SH) test/00/t0019a.sh
+
+t0020a: test/00/t0020a.sh all
+	PATH=`pwd`/bin:$$PATH $(SH) test/00/t0020a.sh
+
+ucsdpsys_svolcvt/main.o: ucsdpsys_svolcvt/main.c lib/progname.h lib/version.h
+	$(CC) $(CPPFLAGS) $(CFLAGS) -I. -c ucsdpsys_svolcvt/main.c
+	mv main.o ucsdpsys_svolcvt/main.o
+
+ucsdpsys_svolio/main.o: ucsdpsys_svolio/main.c lib/byte_sex.h lib/diskio.h lib/gcc_attributes.h lib/memory.h lib/progname.h lib/psystem.h lib/version.h
+	$(CC) $(CPPFLAGS) $(CFLAGS) -I. -c ucsdpsys_svolio/main.c
+	mv main.o ucsdpsys_svolio/main.o
+
+ucsdpsys_vm/array.o: ucsdpsys_vm/array.c lib/byte_sex.h lib/gcc_attributes.h lib/memory.h lib/psystem.h ucsdpsys_vm/array.h
+	$(CC) $(CPPFLAGS) $(CFLAGS) -I. -c ucsdpsys_vm/array.c
+	mv array.o ucsdpsys_vm/array.o
+
+ucsdpsys_vm/long_integer.o: ucsdpsys_vm/long_integer.c lib/byte_sex.h lib/gcc_attributes.h lib/memory.h lib/pcode.h lib/psystem.h ucsdpsys_vm/long_integer.h ucsdpsys_vm/stack.h
+	$(CC) $(CPPFLAGS) $(CFLAGS) -I. -c ucsdpsys_vm/long_integer.c
+	mv long_integer.o ucsdpsys_vm/long_integer.o
+
+ucsdpsys_vm/main.o: ucsdpsys_vm/main.c lib/byte_sex.h lib/diskio.h lib/gcc_attributes.h lib/memory.h lib/pcode.h lib/progname.h lib/psystem.h lib/version.h ucsdpsys_vm/array.h ucsdpsys_vm/native6502.h ucsdpsys_vm/ptrace.h ucsdpsys_vm/search.h ucsdpsys_vm/sets.h ucsdpsys_vm/stack.h ucsdpsys_vm/term.h
+	$(CC) $(CPPFLAGS) $(CFLAGS) -I. -c ucsdpsys_vm/main.c
+	mv main.o ucsdpsys_vm/main.o
+
+ucsdpsys_vm/native6502.o: ucsdpsys_vm/native6502.c lib/byte_sex.h lib/gcc_attributes.h lib/memory.h lib/pcode.h lib/psystem.h ucsdpsys_vm/array.h ucsdpsys_vm/long_integer.h ucsdpsys_vm/native6502.h ucsdpsys_vm/search.h ucsdpsys_vm/stack.h ucsdpsys_vm/term.h ucsdpsys_vm/turtlegr.h
+	$(CC) $(CPPFLAGS) $(CFLAGS) -I. -c ucsdpsys_vm/native6502.c
+	mv native6502.o ucsdpsys_vm/native6502.o
+
+ucsdpsys_vm/printer.o: ucsdpsys_vm/printer.c lib/byte_sex.h lib/gcc_attributes.h lib/memory.h lib/psystem.h ucsdpsys_vm/printer.h
+	$(CC) $(CPPFLAGS) $(CFLAGS) -I. -c ucsdpsys_vm/printer.c
+	mv printer.o ucsdpsys_vm/printer.o
+
+ucsdpsys_vm/ptrace.o: ucsdpsys_vm/ptrace.c lib/byte_sex.h lib/gcc_attributes.h lib/memory.h lib/psystem.h ucsdpsys_vm/ptrace.h
+	$(CC) $(CPPFLAGS) $(CFLAGS) -I. -c ucsdpsys_vm/ptrace.c
+	mv ptrace.o ucsdpsys_vm/ptrace.o
+
+ucsdpsys_vm/search.o: ucsdpsys_vm/search.c lib/byte_sex.h lib/gcc_attributes.h lib/memory.h lib/psystem.h ucsdpsys_vm/array.h ucsdpsys_vm/search.h
+	$(CC) $(CPPFLAGS) $(CFLAGS) -I. -c ucsdpsys_vm/search.c
+	mv search.o ucsdpsys_vm/search.o
+
+ucsdpsys_vm/sets.o: ucsdpsys_vm/sets.c lib/gcc_attributes.h lib/psystem.h ucsdpsys_vm/sets.h
+	$(CC) $(CPPFLAGS) $(CFLAGS) -I. -c ucsdpsys_vm/sets.c
+	mv sets.o ucsdpsys_vm/sets.o
+
+ucsdpsys_vm/stack.o: ucsdpsys_vm/stack.c lib/byte_sex.h lib/gcc_attributes.h lib/memory.h lib/psystem.h ucsdpsys_vm/stack.h
+	$(CC) $(CPPFLAGS) $(CFLAGS) -I. -c ucsdpsys_vm/stack.c
+	mv stack.o ucsdpsys_vm/stack.o
+
+ucsdpsys_vm/term.o: ucsdpsys_vm/term.c lib/byte_sex.h lib/gcc_attributes.h lib/memory.h lib/psystem.h ucsdpsys_vm/term.h
+	$(CC) $(CPPFLAGS) $(CFLAGS) -I. -c ucsdpsys_vm/term.c
+	mv term.o ucsdpsys_vm/term.o
+
+ucsdpsys_vm/turtlegr.o: ucsdpsys_vm/turtlegr.c lib/byte_sex.h lib/gcc_attributes.h lib/memory.h lib/pcode.h lib/psystem.h ucsdpsys_vm/stack.h ucsdpsys_vm/turtlegr.h
+	$(CC) $(CPPFLAGS) $(CFLAGS) -I. -c ucsdpsys_vm/turtlegr.c
+	mv turtlegr.o ucsdpsys_vm/turtlegr.o
+
+ucsdpsys_vm/unit_io.o: ucsdpsys_vm/unit_io.c lib/byte_sex.h lib/diskio.h lib/gcc_attributes.h lib/memory.h lib/psystem.h ucsdpsys_vm/printer.h ucsdpsys_vm/term.h ucsdpsys_vm/turtlegr.h
+	$(CC) $(CPPFLAGS) $(CFLAGS) -I. -c ucsdpsys_vm/unit_io.c
+	mv unit_io.o ucsdpsys_vm/unit_io.o
+
+ucsdpsys_xturtleserver/main.o: ucsdpsys_xturtleserver/main.c lib/progname.h lib/version.h ucsdpsys_xturtleserver/system.charset.h
+	$(CC) $(CPPFLAGS) $(CFLAGS) -I. -c ucsdpsys_xturtleserver/main.c
+	mv main.o ucsdpsys_xturtleserver/main.o
+
+lib_obj = lib/byte_sex.o lib/diskio.o lib/memory.o lib/progname.o lib/version.o lib/version_stamp.o
+
+lib/libucsd-psystem-vm.a: $(lib_obj)
+	rm -f $@
+	$(AR) qc $@ $(lib_obj)
+	$(RANLIB) $@
+
+bin2c_obj = bin2c/main.o
+
+bin/bin2c: $(bin2c_obj) lib/libucsd-psystem-vm.a .bin
+	$(CC) $(CPPFLAGS) $(CFLAGS) -o $@ $(bin2c_obj) lib/libucsd-psystem-vm.a $(LIBS)
+
+float_conv_obj = float_conv/main.o
+
+bin/float_conv: $(float_conv_obj) lib/libucsd-psystem-vm.a .bin
+	$(CC) $(CPPFLAGS) $(CFLAGS) -o $@ $(float_conv_obj) lib/libucsd-psystem-vm.a $(LIBS)
+
+ucsdpsys_svolcvt_obj = ucsdpsys_svolcvt/main.o
+
+bin/ucsdpsys_svolcvt: $(ucsdpsys_svolcvt_obj) lib/libucsd-psystem-vm.a .bin
+	$(CC) $(CPPFLAGS) $(CFLAGS) -o $@ $(ucsdpsys_svolcvt_obj) lib/libucsd-psystem-vm.a $(LIBS)
+
+$(bindir)/ucsdpsys_svolcvt: bin/ucsdpsys_svolcvt .bindir
+	$(INSTALL_PROGRAM) bin/ucsdpsys_svolcvt $@
+
+ucsdpsys_svolio_obj = ucsdpsys_svolio/main.o
+
+bin/ucsdpsys_svolio: $(ucsdpsys_svolio_obj) lib/libucsd-psystem-vm.a .bin
+	$(CC) $(CPPFLAGS) $(CFLAGS) -o $@ $(ucsdpsys_svolio_obj) lib/libucsd-psystem-vm.a $(LIBS)
+
+$(bindir)/ucsdpsys_svolio: bin/ucsdpsys_svolio .bindir
+	$(INSTALL_PROGRAM) bin/ucsdpsys_svolio $@
+
+ucsdpsys_vm_obj = ucsdpsys_vm/array.o ucsdpsys_vm/long_integer.o ucsdpsys_vm/main.o ucsdpsys_vm/native6502.o ucsdpsys_vm/printer.o ucsdpsys_vm/ptrace.o ucsdpsys_vm/search.o ucsdpsys_vm/sets.o ucsdpsys_vm/stack.o ucsdpsys_vm/term.o ucsdpsys_vm/turtlegr.o ucsdpsys_vm/unit_io.o
+
+bin/ucsdpsys_vm: $(ucsdpsys_vm_obj) lib/libucsd-psystem-vm.a .bin
+	$(CC) $(CPPFLAGS) $(CFLAGS) -o $@ $(ucsdpsys_vm_obj) lib/libucsd-psystem-vm.a $(LIBS)
+
+$(bindir)/ucsdpsys_vm: bin/ucsdpsys_vm .bindir
+	$(INSTALL_PROGRAM) bin/ucsdpsys_vm $@
+
+ucsdpsys_xturtleserver_obj = ucsdpsys_xturtleserver/main.o
+
+bin/ucsdpsys_xturtleserver: $(ucsdpsys_xturtleserver_obj) lib/libucsd-psystem-vm.a .bin
+	$(CC) $(CPPFLAGS) $(CFLAGS) -o $@ $(ucsdpsys_xturtleserver_obj) lib/libucsd-psystem-vm.a $(LIBS)
+
+$(bindir)/ucsdpsys_xturtleserver: bin/ucsdpsys_xturtleserver .bindir
+	$(INSTALL_PROGRAM) bin/ucsdpsys_xturtleserver $@
+
+all: all-bin all-doc
+all-bin: bin/bin2c bin/float_conv bin/test_prelude bin/ucsdpsys_svolcvt bin/ucsdpsys_svolio bin/ucsdpsys_vm bin/ucsdpsys_xturtleserver
+all-doc: etc/building.ps etc/change_log.ps etc/readme.ps etc/reference.ps
+
+.bin:
+	-mkdir bin
+	-chmod 0755 bin
+	@-test -d bin && touch $@
+	@sleep 1
+
+.bindir:
+	-$(INSTALL) -m 0755 -d $(bindir)
+	@-test -d $(bindir) && touch $@
+	@sleep 1
+
+check: sure
+
+sure: \
+t0001a \
+t0002a \
+t0003a \
+t0005a \
+t0006a \
+t0007a \
+t0008a \
+t0009a \
+t0010a \
+t0011a \
+t0012a \
+t0015a \
+t0016a \
+t0017a \
+t0018a \
+t0019a \
+t0020a
+	@echo Passed All Tests
+
+clean-obj:
+	rm -f .bin
+	rm -f .bindir
+	rm -f bin/test_prelude
+	rm -f bin2c/main.o
+	rm -f core
+	rm -f float_conv/main.o
+	rm -f lib/byte_sex.o
+	rm -f lib/diskio.o
+	rm -f lib/libucsd-psystem-vm.a
+	rm -f lib/memory.o
+	rm -f lib/progname.o
+	rm -f lib/version.o
+	rm -f lib/version_stamp.o
+	rm -f man/.mandir
+	rm -f man/man1/.mandir
+	rm -f ucsdpsys_svolcvt/main.o
+	rm -f ucsdpsys_svolio/main.o
+	rm -f ucsdpsys_vm/array.o
+	rm -f ucsdpsys_vm/long_integer.o
+	rm -f ucsdpsys_vm/main.o
+	rm -f ucsdpsys_vm/native6502.o
+	rm -f ucsdpsys_vm/printer.o
+	rm -f ucsdpsys_vm/ptrace.o
+	rm -f ucsdpsys_vm/search.o
+	rm -f ucsdpsys_vm/sets.o
+	rm -f ucsdpsys_vm/stack.o
+	rm -f ucsdpsys_vm/term.o
+	rm -f ucsdpsys_vm/turtlegr.o
+	rm -f ucsdpsys_vm/unit_io.o
+	rm -f ucsdpsys_xturtleserver/main.o
+	rm -f y.output
+	rm -f y.tab.c
+	rm -f y.tab.h
+
+clean: clean-obj
+	rm -f bin/bin2c
+	rm -f bin/float_conv
+	rm -f bin/test_prelude
+	rm -f bin/ucsdpsys_svolcvt
+	rm -f bin/ucsdpsys_svolio
+	rm -f bin/ucsdpsys_vm
+	rm -f bin/ucsdpsys_xturtleserver
+	rm -f etc/building.ps
+	rm -f etc/change_log.ps
+	rm -f etc/readme.ps
+	rm -f etc/reference.ps
+
+distclean: clean
+	rm -f Makefile
+	rm -f config.cache
+	rm -f config.log
+	rm -f config.status
+	rm -f etc/howto.conf
+	rm -f lib/config.h
+	rm -rf bin
+
+install-bin: $(bindir)/ucsdpsys_svolcvt $(bindir)/ucsdpsys_svolio $(bindir)/ucsdpsys_vm $(bindir)/ucsdpsys_xturtleserver
+
+install-man: $(mandir)/man1/ucsdpsys_svolcvt.1 $(mandir)/man1/ucsdpsys_svolio.1 $(mandir)/man1/ucsdpsys_vm.1 $(mandir)/man1/ucsdpsys_vm_license.1 $(mandir)/man1/ucsdpsys_xturtleserver.1
+
+install: install-bin install-man

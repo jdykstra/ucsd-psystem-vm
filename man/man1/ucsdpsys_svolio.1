@@ -1,0 +1,152 @@
+.\"
+.\" UCSD p-System virtual machine
+.\" Copyright (C) 2000 Mario Klebsch
+.\" Copyright (C) 2006, 2010 Peter Miller
+.\"
+.\" This program is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 2 of the License, or
+.\" (at your option) any later version.
+.\"
+.\" This program is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\" GNU General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License along
+.\" with this program. If not, see <http://www.gnu.org/licenses/>
+.\"
+.ds n) ucsdpsys_svolio
+.TH "ucsdpsys_svolio" 1 ucsd-psystem-vm "Reference Manual"
+.SH NAME
+ucsdpsys_svolio \- UCSD p-System volume I/O
+.XX "ucsdpsys_svolio(1)" "UCSD p-System volume I/O"
+.SH SYNOPSIS
+\fB\*(n) \-e\fP \f[I]volume-file\fP
+.br
+\fB\*(n) \-l\fP \f[I]volume-file\fP
+.br
+\fB\*(n)\fP [ \fB\-t\fP ] \f[I]volume-file\fP \f[I]content-file\fP
+.br
+\fB\*(n) \-x\fP \f[I]volume-file\fP
+.SH DESCRIPTION
+The \fI\*(n)\fP program is used to read UCSD volume images.  It can list
+the directory and read files in binary mode as well as in text mode.
+When reading files, the data is written to the standard output.
+.PP
+The \f[I]volume-file\fP can be either in \f[CW].svol\fP format or in
+\f[CW].dsk\fP format, used by Apple ][ emulators.  The \f[CW].svol\fP
+format does not specify a byte order.  The \fI\*(n)\fP program tries to
+automatically determine the correct byte order.
+.SS Deprecated
+This tool has been deprecated, in favour of the \f[I]ucsdpsys_disk\fP(1)
+command in the \f[CW]ucsd-psystem-fs\fP project.
+.SH OPTIONS
+The following options are understood:
+.TP 8n
+\fB\-e\fP
+.TP 8n
+\fB\-\-extend
+This option is used to
+show extended directory listing of \f[I]volume-file\fP.
+.TP 8n
+\fB\-l\fP
+.TP 8n
+\fB\-\-list
+This option is used to
+show the directory of \f[I]volume-file\fP.
+.TP 8n
+\fB\-t\fP
+.TP 8n
+\fB\-\-text\fP
+This option is used to
+read the file using text mode.
+In text mode,
+the first two blocks are skipped
+(they do contain UCSD editor internal data),
+DLEs and line endings are converted.
+.TP 8n
+\fB\-V\fP
+.TP 8n
+\fB\-\-version\fP
+This option is used to
+print the version and exit.
+.TP 8n
+\fB\-x\fP
+.TP 8n
+\fB\-\-extract-all\fP
+This option may be used to extract all files from the volume.
+.SH EXAMPLES
+To read the contents of the volume file \f[CW]apple1.svol\fP, execute
+.PP
+.RS
+.ft CW
+\*(n) -l apple1.dsk
+.ft P
+.RE
+.PP
+To extract \f[CW]SYSTEM.PASCAL\fP you can use
+.PP
+.RS
+.ft CW
+\*(n) apple1.dsk system.pascal > system.pascal
+.ft P
+.RE
+.PP
+To take (yet another) view of \f[CW]GRAFDEMO.TEXT\fP, execute
+.PP
+.RS
+.ft CW
+\*(n) -t apple3.dsk grafdemo.text | less
+.ft P
+.RE
+.SH "SEE ALSO"
+.TP 8n
+\f[I]ucsdpsys_vm\fP(1)
+UCSD p-System virtual machine, used to execute the UCSD p-System
+executables on a UCSD p-System disk image.
+.TP 8n
+\f[I]ucsdpsys_volcvt\fP(1)
+convert Apple ][ Pascal disk images
+.TP 8n
+\f[I]Apple Pascal Operating System Reference Manual\fP (1980)
+Appendix C,
+File Formats/Text files
+.TP 8n
+\f[I]ucsdpsys_fsck\fP(1)
+Check and repair a UCSD p-System filesystem image.
+(From the \f[I]ucsd-psystem-fs\fP project.)
+.TP 8n
+\f[I]ucsdpsys_disk\fP(1)
+Read, write and remove files on a UCSD p-System filesystem image.
+(From the \f[I]ucsd-psystem-fs\fP project.)
+.TP 8n
+\f[I]ucsdpsys_mkfs\fP(1)
+Create a new UCSD p-System filesystem image.
+(From the \f[I]ucsd-psystem-fs\fP project.)
+.TP 8n
+\f[I]ucsdpsys_fs\fP(5)
+A description of the UCSD p-System file system format.
+(From the \f[I]ucsd-psystem-fs\fP project.)
+.SH BUGS
+The \fI\*(n)\fP(1) command can not write to \f[I]volume-file\fP,
+that is why this command is deprected.
+.TP 8n
+\f[I]ucsdpsys_disk\fP(1)
+.RS
+This command from the \f[CW]ucsd-psystem-fs\fP project is
+able to modify disk images.
+.TP 2n
+\[bu]
+It is able to insert files into disk images.
+.TP 2n
+\[bu]
+It is able to remove files from disk images.
+.TP 2n
+\[bu]
+It understands numerous interleave patterns, for both reading and writing.
+.PP
+http://ucsd-psystem-fs.sourceforge.net/
+.RE
+.so man/man1/z_exit.so
+.so man/man1/z_copyright.so

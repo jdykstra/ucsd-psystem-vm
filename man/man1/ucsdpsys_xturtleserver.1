@@ -1,0 +1,44 @@
+'\" t
+.\" UCSD p-System virtual machine
+.\" Copyright (C) 2010 Peter Miller
+.\"
+.\" This program is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 2 of the License, or
+.\" (at your option) any later version.
+.\"
+.\" This program is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+.\" General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License
+.\" along with this program. If not, see <http://www.gnu.org/licenses/>.
+.\"
+.ds n) ucsdpsys_xturtleserver
+.TH \*(n) 1 ucsd-psystem-vm "Reference Manual"
+.SH NAME
+ucsdpsys_xturtleserver \- X11 Turtle Graphics server
+.XX "ucsdpsys_xturtleserver(1)" "X11 Turtle Graphics server"
+.SH SYNOPSIS
+.B \*(n)
+.br
+.B \*(n)
+.B -V
+.SH DESCRIPTION
+The \fI\*(n)\fP program is used by the \f[I]ucsdpsys_vm\fP(1) program to
+draw graphics, via the specially crafted TURTLEGRAPHICS unit.
+This command is not usually invoked directly by the user.
+.br
+.ne 1i
+.SH OPTIONS
+The following options are understood:
+.TP 8n
+\fB\-V\fP
+Print the version of the
+.I \*(n)
+program being executed.
+.PP
+All other options will produce a diagnostic error.
+.so man/man1/z_exit.so
+.so man/man1/z_copyright.so

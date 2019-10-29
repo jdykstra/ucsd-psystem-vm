@@ -1,0 +1,108 @@
+; P-Code interpreter (to run the apple pascal system)
+; Copyright (C) 2000 Mario Klebsch
+;
+; This program is free software; you can redistribute it and/or modify
+; it under the terms of the GNU General Public License as published by
+; the Free Software Foundation; either version 2 of the License, or
+; (at your option) any later version.
+;
+; This program is distributed in the hope that it will be useful,
+; but WITHOUT ANY WARRANTY; without even the implied warranty of
+; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+; GNU General Public License for more details.
+;
+; You should have received a copy of the GNU General Public License along
+; with this program. If not, see <http://www.gnu.org/licenses/>
+
+;PROCEDURE INITTURTLE;
+        .proc INITTURTLE,0
+        .ascii  "TURTLEGRAPHICS::INITTURTLE"
+        .byte   0
+
+;PROCEDURE TURN(ANGLE: INTEGER);
+        .proc TURN,1
+        .ascii  "TURTLEGRAPHICS::TURN"
+        .byte   0
+
+;PROCEDURE TURNTO(ANGLE: INTEGER);
+        .proc   TURNTO,1
+        .ascii  "TURTLEGRAPHICS::TURNTO"
+        .byte   0
+
+;PROCEDURE MOVE(DIST: INTEGER);
+        .proc   MOVE,1
+        .ascii  "TURTLEGRAPHICS::MOVE"
+        .byte   0
+
+;PROCEDURE MOVETO(X,Y: INTEGER);
+        .proc   MOVETO,2
+        .ascii  "TURTLEGRAPHICS::MOVETO"
+        .byte   0
+
+;PROCEDURE PENCOLOR(PENMODE: SCREENCOLOR);
+        .proc   PENCOLOR,1
+        .ascii  "TURTLEGRAPHICS::PENCOLOR"
+        .byte   0
+
+;PROCEDURE TEXTMODE;
+        .proc   TEXTMODE
+        .ascii  "TURTLEGRAPHICS::TEXTMODE"
+        .byte   0
+
+;PROCEDURE GRAFMODE;
+        .proc   GRAFMODE
+        .ascii  "TURTLEGRAPHICS::GRAFMODE"
+        .byte   0
+
+;PROCEDURE FILLSCREEN(FILLCOLOR: SCREENCOLOR);
+        .proc   FILLSCREEN,1
+        .ascii  "TURTLEGRAPHICS::FILLSCREEN"
+        .byte   0
+
+;PROCEDURE VIEWPORT(LEFT,RIGHT,BOTTOM,TOP: INTEGER);
+        .proc   VIEWPORT,4
+        .ascii  "TURTLEGRAPHICS::VIEWPORT"
+        .byte   0
+
+;FUNCTION  TURTLEX: INTEGER;
+        .func   TURTLEX
+        .ascii  "TURTLEGRAPHICS::TURTLEX"
+        .byte   0
+
+;FUNCTION  TURTLEY: INTEGER;
+        .func   TURTLEY
+        .ascii  "TURTLEGRAPHICS::TURTLEY"
+        .byte   0
+
+;FUNCTION  TURTLEANG: INTEGER;
+        .func   TURTLEANG
+        .ascii  "TURTLEGRAPHICS::TURTLEANG"
+        .byte   0
+
+;FUNCTION  SCREENBIT(X,Y: INTEGER): BOOLEAN;
+        .func   SCREENBIT,2
+        .ascii  "TURTLEGRAPHICS::SCREENBIT"
+        .byte   0
+
+;PROCEDURE DRAWBLOCK(VAR SOURCE; ROWSIZE,XSKIP,YSKIP,WIDTH,HEIGHT,
+;                    XSCREEN,YSCREEN,MODE: INTEGER);
+        .proc   DRAWBLOCK,9
+        .ascii  "TURTLEGRAPHICS::DRAWBLOCK"
+        .byte   0
+
+;PROCEDURE WCHAR(CH: CHAR);
+        .proc   WCHAR,1
+        .ascii  "TURTLEGRAPHICS::WCHAR"
+        .byte   0
+
+;PROCEDURE WSTRING(S: STRING);
+        .proc   WSTRING,1
+        .ascii  "TURTLEGRAPHICS::WSTRING"
+        .byte   0
+
+;PROCEDURE CHARTYPE(MODE: INTEGER);
+        .proc   CHARTYPE,1
+        .ascii  "TURTLEGRAPHICS::CHARTYPE"
+        .byte   0
+
+        .end

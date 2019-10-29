@@ -1,0 +1,620 @@
+ucsd-psystem-vm (0.11.D002-1) unstable; urgency=low
+
+  * The web site dowenload page now includes a link to the LaunchPad PPA for
+    pre-build executables.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Sat, 18 Sep 2010 16:47:30 +1000
+
+ucsd-psystem-vm (0.D006-1) unstable; urgency=low
+
+  * Track upstream version 0.5
+  * http://klebsch.de/p-interp-0.5.tar.gz
+  * Date = 2001-08-02
+
+ -- Peter Miller <pmiller@opensource.org.au>  Mon, 08 May 2006 10:22:32 +1000
+
+ucsd-psystem-vm (0.D005-1) unstable; urgency=low
+
+  * Track upstream version 0.4
+  * http://klebsch.de/p-interp-0.4.tar.gz
+  * Date = 2001-06-08
+
+ -- Peter Miller <pmiller@opensource.org.au>  Mon, 08 May 2006 10:16:22 +1000
+
+ucsd-psystem-vm (0.D004-1) unstable; urgency=low
+
+  * Track upstream version 0.3
+  * http://klebsch.de/p-interp-0.3.tar.gz
+  * Date = 2001-05-20
+
+ -- Peter Miller <pmiller@opensource.org.au>  Mon, 08 May 2006 10:05:20 +1000
+
+ucsd-psystem-vm (0.D003-1) unstable; urgency=low
+
+  * Track upstream version 0.2.
+  * http://klebsch.de/p-interp-0.2.tar.gz
+  * Date = 2001-05-10
+
+ -- Peter Miller <pmiller@opensource.org.au>  Mon, 08 May 2006 09:56:02 +1000
+
+ucsd-psystem-vm (0.D002-1) unstable; urgency=low
+
+  * Track upstream version 0.1
+  * http://klebsch.de/p-interp-0.1-alpha.tar.gz
+  * Date = 2000-09-21
+
+ -- Peter Miller <pmiller@opensource.org.au>  Mon, 08 May 2006 09:43:57 +1000
+
+ucsd-psystem-vm (0.D001-1) unstable; urgency=low
+
+  * This change set creates the minimum Aegis configuration to get a small
+    project up and running quickly.  It does not include any source files, as
+    those are expected to be supplied by release tarballs imported using the
+    aetar command.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Sat, 06 May 2006 01:07:07 +1000
+
+ucsd-psystem-vm (0.11.D001-1) unstable; urgency=low
+
+  * This change set prepares the ucsd-psystem-vm project for the necxt public
+    release.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Fri, 27 Aug 2010 23:19:18 +1000
+
+ucsd-psystem-vm (0.10.D013-1) unstable; urgency=low
+
+  * The building instructions have been updated to reflect the status of the
+    ucsd-psystem-fs and ucsd-psystem-xc and ucsp-psystem-os projects.
+  * The readme file, and the ucsdpsys_vm(1) man page, no longer make any
+    reference to Apple Pascal.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Fri, 27 Aug 2010 22:55:01 +1000
+
+ucsd-psystem-vm (0.10.D012-1) unstable; urgency=low
+
+  * This change set adds applestuff signatures to the native support.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Wed, 25 Aug 2010 21:07:53 +1000
+
+ucsd-psystem-vm (0.10.D011-1) unstable; urgency=low
+
+  * This change set adds a pattern for the "transcen:" glue for the
+    TRANSCENDENTAL unit.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Wed, 25 Aug 2010 20:47:45 +1000
+
+ucsd-psystem-vm (0.10.D010-1) unstable; urgency=low
+
+  * This change set adds comments to some places in the code, to make loading
+    and unloading segment more clear.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Wed, 25 Aug 2010 19:55:43 +1000
+
+ucsd-psystem-vm (0.10.D009-1) unstable; urgency=low
+
+  * A more subtle byte-sex issue was fixed.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Sun, 18 Jul 2010 00:59:14 +1000
+
+ucsd-psystem-vm (0.10.D008-1) unstable; urgency=low
+
+  * The virtual machine now takes the system's byte sex from the byte sex of the
+    first disk.	 All subsequest disk images are check to be sure they are all
+    the same.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Sun, 18 Jul 2010 00:35:52 +1000
+
+ucsd-psystem-vm (0.10.D007-1) unstable; urgency=low
+
+  * The SYSCOM^.MISCINFO word is now emulated, and sets the various bits that
+    the emulator has control of, including the word-machine and byte sex
+    indicators.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Fri, 09 Jul 2010 20:03:09 +1000
+
+ucsd-psystem-vm (0.10.D006-1) unstable; urgency=low
+
+  * Some more detail about ucsd-psystem-os has been added to the ucsdpsys_vm(1)
+    man page.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Thu, 01 Jul 2010 14:23:49 +1000
+
+ucsd-psystem-vm (0.10.D005-1) unstable; urgency=low
+
+  * The syscom^.sysunit field is now set to the unit that the SYSTEM.PASCAL file
+    was found on, rather than always setting it to 4.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Thu, 01 Jul 2010 13:19:46 +1000
+
+ucsd-psystem-vm (0.10.D004-1) unstable; urgency=low
+
+  * When using a terminal emulator such as xterm(1) or gnome-terminal(1) the
+    ucsdpsys_cm(1) command is now able to track the actual terminal size, and
+    adjust CRTINFO.WIDTH and CRTINFO.HEIGHT at run-time, so that they always
+    reflect the actual terminal size.  This is implemented using a SIGWINCH
+    interrupt handler, and the ncurses(3) support for SIGWINCH, see
+    resizeterm(3) for more information.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Thu, 24 Jun 2010 22:49:35 +1000
+
+ucsd-psystem-vm (0.10.D003-1) unstable; urgency=low
+
+  * The system date (in the system's segment 0 procedure 1 stack frame, local
+    variable 67) is now faked at run-time, for every access, to ensure that the
+    system's idea of the current date is always correct, and the resulting date
+    stamps on disk files will be correct (well, as correct as a two-digit year
+    will ever be).
+
+ -- Peter Miller <pmiller@opensource.org.au>  Thu, 24 Jun 2010 11:52:22 +1000
+
+ucsd-psystem-vm (0.10.D002-1) unstable; urgency=low
+
+  * A number of typographic errors on the web page have been corrected.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Mon, 21 Jun 2010 02:48:08 +1000
+
+ucsd-psystem-vm (0.10.D001-1) unstable; urgency=low
+
+  * This change set prepares ucsd-psystem-vm for the next public release.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Sat, 19 Jun 2010 00:13:20 +1000
+
+ucsd-psystem-vm (0.9.D023-1) unstable; urgency=low
+
+  * The build instructions have been highlighted more obviously on the web site.
+    Theer is no dependency on yacc, it have been removed from the configure.ac
+    file.  This is a dependency on ncurses, it has been added to the building
+    instructions 'Before You Start' section.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Fri, 18 Jun 2010 23:56:07 +1000
+
+ucsd-psystem-vm (0.9.D022-1) unstable; urgency=low
+
+  * The web site now contains a link to the ucsd-psystem-os sister project.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Wed, 16 Jun 2010 02:51:58 +1000
+
+ucsd-psystem-vm (0.9.D021-1) unstable; urgency=low
+
+  * The code for the turtle graphics emilation has been reformatted, and a
+    corresponding include file created.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Fri, 11 Jun 2010 21:10:20 +1000
+
+ucsd-psystem-vm (0.9.D020-1) unstable; urgency=low
+
+  * The search functions have been reformatted, and a corresponding include file
+    has been created.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Fri, 11 Jun 2010 20:48:19 +1000
+
+ucsd-psystem-vm (0.9.D019-1) unstable; urgency=low
+
+  * The VM now understands the inline-math LN opcode.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Fri, 11 Jun 2010 20:24:21 +1000
+
+ucsd-psystem-vm (0.9.D018-1) unstable; urgency=low
+
+  * The memory simulation code has been reformatted, and the corresponding
+    include file has Doxygen comments added.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Fri, 11 Jun 2010 20:16:11 +1000
+
+ucsd-psystem-vm (0.9.D017-1) unstable; urgency=low
+
+  * This change set reformats the ptrace code, and improves the corresponding
+    include file.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Fri, 11 Jun 2010 19:42:43 +1000
+
+ucsd-psystem-vm (0.9.D016-1) unstable; urgency=low
+
+  * The native code glue has been reformatted, and a turtle-graphic-style DECOPS
+    signature has been added.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Fri, 11 Jun 2010 18:56:23 +1000
+
+ucsd-psystem-vm (0.9.D015-1) unstable; urgency=low
+
+  * The VM now understands the inline-math EXP opcode.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Fri, 11 Jun 2010 18:42:11 +1000
+
+ucsd-psystem-vm (0.9.D014-1) unstable; urgency=low
+
+  * The long integer code has been run through indent(1) for readability, and a
+    suitable include file produced.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Fri, 11 Jun 2010 18:14:02 +1000
+
+ucsd-psystem-vm (0.9.D013-1) unstable; urgency=low
+
+  * This change set improves the formatting of the ucsdpsys_vm/array.{c,h}
+    files, and adds Doxygen comments.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Fri, 11 Jun 2010 17:40:33 +1000
+
+ucsd-psystem-vm (0.9.D012-1) unstable; urgency=low
+
+  * The VM now understands the inline-math ATAN opcode.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Fri, 11 Jun 2010 17:19:50 +1000
+
+ucsd-psystem-vm (0.9.D011-1) unstable; urgency=low
+
+  * The VM now implements the inline-math SQRT opcode.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Fri, 11 Jun 2010 17:07:34 +1000
+
+ucsd-psystem-vm (0.9.D010-1) unstable; urgency=low
+
+  * The virtual machine now understands the inline-math cos() opcode.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Fri, 11 Jun 2010 16:35:54 +1000
+
+ucsd-psystem-vm (0.9.D009-1) unstable; urgency=low
+
+  * The main interpreter code has been run thorough indent(1) for consistent
+    formatting.	 A few small re-writes to remove premature optimizations, to aid
+    in clarity.
+  * Rule 1: do not optimize, that's the compiler's job;
+  * Rule 2: (for experts only) do not optimize yet.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Fri, 11 Jun 2010 16:28:34 +1000
+
+ucsd-psystem-vm (0.9.D008-1) unstable; urgency=low
+
+  * The interpreter now understands the CSP SIN function.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Sun, 30 May 2010 20:24:31 +1000
+
+ucsd-psystem-vm (0.9.D007-1) unstable; urgency=low
+
+  * The ucsdpsys_svolio man page has been updated.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Tue, 18 May 2010 20:00:10 +1000
+
+ucsd-psystem-vm (0.9.D006-1) unstable; urgency=low
+
+  * There is a new ucsdpsys_svolio -x option, that may be used to extract all
+    files from a disk image.
+  * My thanks to Eric Smith <eric@brouhaha.com> for this patch.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Tue, 18 May 2010 19:21:06 +1000
+
+ucsd-psystem-vm (0.9.D005-1) unstable; urgency=low
+
+  * The file name for the apple disk images was using DSK when it needed dsk.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Tue, 18 May 2010 12:07:08 +1000
+
+ucsd-psystem-vm (0.9.D004-1) unstable; urgency=low
+
+  * The disk image URL in the man page has been corrected.
+  * My thanks to Eric Smith <eric@brouhaha.com> for reporting this problem.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Tue, 18 May 2010 12:01:54 +1000
+
+ucsd-psystem-vm (0.9.D003-1) unstable; urgency=low
+
+  * A problem with the wget example in the man page has been fixed.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Tue, 18 May 2010 11:49:54 +1000
+
+ucsd-psystem-vm (0.9.D002-1) unstable; urgency=low
+
+  * The link to the SF.net file downloads hase been fixed.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Mon, 17 May 2010 14:35:09 +1000
+
+ucsd-psystem-vm (0.9.D001-1) unstable; urgency=low
+
+  * This change set prepares ucsd-psystem-vm for the next public release.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Mon, 17 May 2010 11:25:13 +1000
+
+ucsd-psystem-vm (0.8.D014-1) unstable; urgency=low
+
+  * This change set reformats the term.c and printer.c and unit_io.c source fils
+    in the interpreter. It also cleans up some include files.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Mon, 17 May 2010 11:00:49 +1000
+
+ucsd-psystem-vm (0.8.D013-1) unstable; urgency=low
+
+  * A bug has been fixed in the CSP ROUND opcode. It was rounding in the wrong
+    direction in some cases.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Tue, 11 May 2010 19:42:51 +1000
+
+ucsd-psystem-vm (0.8.D012-1) unstable; urgency=low
+
+  * There are two new opcodes: LES POWR for proper subset comparisons, and GTR
+    POWR for proper superset comparisons.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Tue, 11 May 2010 15:15:07 +1000
+
+ucsd-psystem-vm (0.8.D011-1) unstable; urgency=low
+
+  * This change set adds a test for the NEQ POWR opcode.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Tue, 11 May 2010 14:58:38 +1000
+
+ucsd-psystem-vm (0.8.D010-1) unstable; urgency=low
+
+  * This change set adds a test for the EQU POWR opcode.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Tue, 11 May 2010 14:57:20 +1000
+
+ucsd-psystem-vm (0.8.D009-1) unstable; urgency=low
+
+  * This change set adds a test for the GEQ POWR opcode.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Tue, 11 May 2010 14:52:53 +1000
+
+ucsd-psystem-vm (0.8.D008-1) unstable; urgency=low
+
+  * This change set adds a test for the LEQ POWR opcode.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Tue, 11 May 2010 14:49:57 +1000
+
+ucsd-psystem-vm (0.8.D007-1) unstable; urgency=low
+
+  * A bug has been fixed in the IDSEARCH function, it now recognises the
+    SEPARATE symbol.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Mon, 10 May 2010 20:26:45 +1000
+
+ucsd-psystem-vm (0.8.D006-1) unstable; urgency=low
+
+  * The FILLCHAR implementation has been cleaned up to explicitly use a signed
+    Length argument.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Mon, 10 May 2010 17:58:02 +1000
+
+ucsd-psystem-vm (0.8.D005-1) unstable; urgency=low
+
+  * A bug has been fixed in the MOVERIGHT code, it no longer panics on negative
+    lengths.  Lengths less than or equal to zero now do nothing.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Mon, 10 May 2010 17:51:00 +1000
+
+ucsd-psystem-vm (0.8.D004-1) unstable; urgency=low
+
+  * A bug has been fixed in the MOVELEFT code, it no longer panics on negative
+    lengths.  Lengths less than or equal to zero now do nothing.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Mon, 10 May 2010 17:46:32 +1000
+
+ucsd-psystem-vm (0.8.D003-1) unstable; urgency=low
+
+  * A bug has been fixed in the XJP opcode.  It now treats the limits as signed
+    integers.  It was erroneously treating them as unsigned integers.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Mon, 10 May 2010 09:28:01 +1000
+
+ucsd-psystem-vm (0.8.D002-1) unstable; urgency=low
+
+  * This change set adds the necessary files to the project so that automatic
+    test are simple to write and run.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Sun, 09 May 2010 23:28:53 +1000
+
+ucsd-psystem-vm (0.8.D001-1) unstable; urgency=low
+
+  * This change set prepares ucsd-psystem-vm for the next public release.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Fri, 07 May 2010 11:56:58 +1000
+
+ucsd-psystem-vm (0.7.D004-1) unstable; urgency=low
+
+  * This change set fixes a number of omissions and inconsistencies the
+    documentation.
+  * My thanks to Blake McBride <blake@arahant.com> for reporting these problems.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Fri, 07 May 2010 11:41:43 +1000
+
+ucsd-psystem-vm (0.7.D003-1) unstable; urgency=low
+
+  * The web site now contains the correct statistics link.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Fri, 07 May 2010 11:29:12 +1000
+
+ucsd-psystem-vm (0.7.D002-1) unstable; urgency=low
+
+  * The error functiosn now have GCC checks theor argument types.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Sun, 25 Apr 2010 13:29:08 +1000
+
+ucsd-psystem-vm (0.7.D001-1) unstable; urgency=low
+
+  * This change set prepares ucsd-psystem-vm for the next public release.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Tue, 06 Apr 2010 16:56:33 +1000
+
+ucsd-psystem-vm (0.6.D028-1) unstable; urgency=low
+
+  * This change set fixes a small build problem with the ucsdpsys_vm/float_
+    conv.c file.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Tue, 06 Apr 2010 16:37:59 +1000
+
+ucsd-psystem-vm (0.6.D027-1) unstable; urgency=low
+
+  * This change set causes a complete rebuild of the project baseline.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Tue, 06 Apr 2010 16:32:49 +1000
+
+ucsd-psystem-vm (0.6.D026-1) unstable; urgency=low
+
+  * This change set comments out any mention of testing from the BUILDING
+    document, because there are non, yet.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Tue, 06 Apr 2010 16:28:20 +1000
+
+ucsd-psystem-vm (0.6.D025-1) unstable; urgency=low
+
+  * The aegis repository now sports icons in the top corners, just like the web
+    site.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Tue, 06 Apr 2010 16:12:38 +1000
+
+ucsd-psystem-vm (0.6.D024-1) unstable; urgency=low
+
+  * This change set makes some minor improvements to the web site.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Fri, 02 Apr 2010 19:41:02 +1100
+
+ucsd-psystem-vm (0.6.D023-1) unstable; urgency=low
+
+  * All of the commands now consistently use getopt_long to parse command line
+    arguments.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Fri, 02 Apr 2010 19:12:23 +1100
+
+ucsd-psystem-vm (0.6.D022-1) unstable; urgency=low
+
+  * The release date for 0.1 has been corrected.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Fri, 02 Apr 2010 18:09:53 +1100
+
+ucsd-psystem-vm (0.6.D021-1) unstable; urgency=low
+
+  * This change set moves much of the material from the README file into the
+    ucsdpsys_cm(1) man page.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Fri, 02 Apr 2010 17:31:12 +1100
+
+ucsd-psystem-vm (0.6.D020-1) unstable; urgency=low
+
+  * The various places perror appeared have been replaced by the use of
+    libexplain(3).
+
+ -- Peter Miller <pmiller@opensource.org.au>  Fri, 02 Apr 2010 15:20:49 +1100
+
+ucsd-psystem-vm (0.6.D019-1) unstable; urgency=low
+
+  * This change set adds a Debian package to the regular build.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Fri, 02 Apr 2010 13:25:41 +1100
+
+ucsd-psystem-vm (0.6.D018-1) unstable; urgency=low
+
+  * This change set switches the Makefile.in generation from a bespoke script to
+    using aemakegen from Aegis.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Fri, 02 Apr 2010 12:35:59 +1100
+
+ucsd-psystem-vm (0.6.D017-1) unstable; urgency=low
+
+  * The ucsdpsys_vm command now uses getopt_long for argument parsing.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Fri, 02 Apr 2010 00:14:07 +1100
+
+ucsd-psystem-vm (0.6.D016-1) unstable; urgency=low
+
+  * This change set translate a minority of comments that were in German into
+    English.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Thu, 01 Apr 2010 23:52:27 +1100
+
+ucsd-psystem-vm (0.6.D015-1) unstable; urgency=low
+
+  * This change set removes the last of the tabs from the source code.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Thu, 01 Apr 2010 22:16:39 +1100
+
+ucsd-psystem-vm (0.6.D014-1) unstable; urgency=low
+
+  * This change set turns on the aede-policy to require up-to-date copyright
+    notices.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Tue, 09 Mar 2010 15:30:20 +1100
+
+ucsd-psystem-vm (0.6.D013-1) unstable; urgency=low
+
+  * This change set adds the linux-x86_64 architecture.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Tue, 09 Mar 2010 15:20:40 +1100
+
+ucsd-psystem-vm (0.6.D012-1) unstable; urgency=low
+
+  * The email address of one of the authors has changed.
+  * Also, the FSF address has been fixed.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Tue, 21 Jul 2009 21:09:54 +1000
+
+ucsd-psystem-vm (0.6.D011-1) unstable; urgency=low
+
+  * The other UCSD p-System projects ar now linked on the web site.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Sun, 29 Oct 2006 12:07:49 +1100
+
+ucsd-psystem-vm (0.6.D010-1) unstable; urgency=low
+
+  * This change set adds a ne icon and improves the web site.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Sun, 29 Oct 2006 11:52:12 +1100
+
+ucsd-psystem-vm (0.6.D009-1) unstable; urgency=low
+
+  * The version of the program printed (see the -V option for each command) is
+    now the Aegis version.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Sun, 21 May 2006 14:49:04 +1000
+
+ucsd-psystem-vm (0.6.D008-1) unstable; urgency=low
+
+  * The integration build now constructs the web site.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Fri, 19 May 2006 18:04:12 +1000
+
+ucsd-psystem-vm (0.6.D007-1) unstable; urgency=low
+
+  * The develop_end_policy_command has been set to use the aede-policy(1)
+    command, to ensure minimum stardards are met.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Thu, 18 May 2006 23:44:58 +1000
+
+ucsd-psystem-vm (0.6.D006-1) unstable; urgency=low
+
+  * The front page of the reference manual now has an interpretation of the
+    original colourful Apple Pascal logo.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Thu, 18 May 2006 23:35:40 +1000
+
+ucsd-psystem-vm (0.6.D005-1) unstable; urgency=low
+
+  * The project now builds via cook.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Thu, 18 May 2006 21:49:21 +1000
+
+ucsd-psystem-vm (0.6.D004-1) unstable; urgency=low
+
+  * The source files have been reorganised.  This better matches the build
+    system used for the other p-System projects.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Wed, 17 May 2006 20:09:54 +1000
+
+ucsd-psystem-vm (0.6.D003-1) unstable; urgency=low
+
+  * This change set adds the necessary file to be able to build the project
+    using GNU Make.  This method does not change any project source files, but
+    instead adds a supplementary makefile to bootstrap creating the real
+    Makefile using the GNU Auto Tools.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Mon, 08 May 2006 17:22:32 +1000
+
+ucsd-psystem-vm (0.6.D002-1) unstable; urgency=low
+
+  * This patch fixes all of the compiler warnings.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Mon, 08 May 2006 17:14:46 +1000
+
+ucsd-psystem-vm (0.6.D001-1) unstable; urgency=low
+
+  * The Makefile has been improved to allow the interpreter to build.
+
+ -- Peter Miller <pmiller@opensource.org.au>  Mon, 08 May 2006 16:55:14 +1000
+

@@ -1,0 +1,363 @@
+'\" t
+.\" UCSD p-System virtual machine
+.\" Copyright (C) 2006, 2010 Peter Miller
+.\"
+.\" This program is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 2 of the License, or
+.\" (at your option) any later version.
+.\"
+.\" This program is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+.\" General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License
+.\" along with this program. If not, see <http://www.gnu.org/licenses/>.
+.\"
+.TH Build ucsd-psystem-vm ucsd-psystem-vm "Reference Manual"
+.so etc/version.so
+.if n .hy 0
+.if n .ad l
+.if n .nr IN 8n
+.SH NAME
+How to build ucsd-psystem-vm
+.XX "" "How to build ucsd-psystem-vm"
+.br
+.ne 1i
+.SH BEFORE YOU START
+There are a few pieces of software you may want to fetch and install
+before you proceed with your installation of ucsd-psystem-vm.
+.TP 8n
+curses
+This is a library for controlling and updating text consoles.  It is
+used by ucsd-psystem-vm to translate the cursor escape sequences into
+whatever escape sequences are used by your text consol, or terminal
+emulator.  These days, most systems use \[lq]ncurses\[lq] instead.  On
+a package based system, the package is called \[lq]libncurses-dev\fP,
+\[lq]libncurses-devel\fP, or something very similar.
+.TP 8n
+libexplain
+The \f[I]ucsd-psystem-vm\fP package depends on the libexplain package,
+a library of system-call-specific \f[I]strerror\fP(3) replacements.
+.br
+http://libexplain.sourceforge.net/
+.TP 8n
+X11
+The \f[I]ucsd-psystem-vm\fP package depends on the X11
+libraries, in order to emulate Turtle Graphics.
+Only the core functionality and Xt widgets are used.
+.TP 8n
+GNU Groff
+The documentation for the \f[I]ucsd-psystem-vm\fP package was prepared
+using the GNU Groff package (version 1.14 or later).  This distribution
+includes full documentation, which may be processed into PostScript or
+DVI files at install time \- if GNU Groff has been installed.
+.TP 8n
+ucsd-psystem-xc (>= 0.8)
+Cross compiler for UCSD Pascal, so that you don't need a working system
+in order to make a working system.  You need this project in order to
+run the test suite; it is used to compile short test programs to be run
+on the virtual machine.
+.br
+http://ucsd-psystem-xc.sourceforge.net/
+.TP 8n
+ucsd-psystem-fs (>= 1.15)
+File system tools for UCSD Pascal, allows you to create and manipulate
+UCSD Pascal disk images.  You need this project in order to run the test
+suite; it is used to construct disk images containing test programs to
+be run by the virtual machine.
+.br
+http://ucsd-psystem-fs.sourceforge.net/
+.TP 8n
+ucsd-psystem-um
+This is optional.  User Manual for UCSD Pascal II.0, reconstructed as
+HTML pages, and also as PDF.  A facsimile of the original scanned pages
+is also available, cleaned and aligned.  You do not need this project in
+order to build the \f[I]ucsd-psystem-vm\fP project.
+.br
+http://miller.emu.id.au/pmiller/ucsd-psystem-um/
+.br
+.ne 1i
+.SH SITE CONFIGURATION
+The \f[B]ucsd-psystem-vm\fP package is configured using the
+\f[I]configure\fP program included in this distribution.
+.PP
+The \f[I]configure\fP shell script attempts to guess correct values for
+various system-dependent variables used during compilation, and creates
+the \f[CI]Makefile\fP and \f[CI]lib/config.h\fP files.  It also creates a
+shell script \f[CI]config.status\fP that you can run in the future to
+recreate the current configuration.
+.PP
+Normally, you just \f[I]cd\fP to the directory containing
+\f[I]ucsd-psystem-vm\fP's source code and then type
+.PP
+.RS
+.ft CW
+.nf
+$ \f[CB]./configure\fP
+\fI\&...lots of output...\fP
+$
+.fi
+.ft R
+.RE
+.PP
+Running \f[I]configure\fP takes a few seconds.  While it is running,
+it prints some messages that tell what it is doing.  If you don't want
+to see the messages, run \f[I]configure\fP using the quiet option; for
+example,
+.PP
+.RS
+.ft CW
+.nf
+$ \f[CB]./configure --quiet\fP
+$
+.fi
+.ft R
+.RE
+.PP
+To compile the \f[B]ucsd-psystem-vm\fP package in a different directory
+from the one containing the source code, you must use a version of
+\f[I]make\fP that supports the \f[I]VPATH\fP variable, such as \f[I]GNU
+make\fP.  Change directory to the directory where you want the object
+files and executables to go and run the \f[I]configure\fP script.  The
+\f[I]configure\fP script automatically checks for the source code in the
+directory that \f[I]configure\fP is in and in \fI\&..\fP (the parent
+directory).  If for some reason \f[I]configure\fP is not in the source
+code directory that you are configuring, then it will report that it
+can't find the source code.  In that case, run \f[I]configure\fP with the
+option \f[CW]--srcdir=\fP\f[I]DIR\fP, where \f[I]DIR\fP is the directory that
+contains the source code.
+.PP
+By default, \f[I]configure\fP will arrange for the \f[I]make install\fP
+command to install the \fBucsd-psystem-vm\fP package's files in
+\fI/usr/local/bin\fP, and \fI/usr/local/man\fP.  There are options which
+allow you to control the placement of these files.
+.TP 8n
+\f[CW]--prefix=\fP\f[I]PATH\fP
+This specifies the path prefix to be used in the installation.
+Defaults to \fI/usr/local\fP unless otherwise specified.
+.TP 8n
+\f[CW]--exec-prefix=\fP\f[I]PATH\fP
+You can specify separate installation prefixes for
+architecture-specific files files.
+Defaults to \fI${prefix}\fP unless otherwise specified.
+.TP 8n
+\f[CW]--bindir=\fP\f[I]PATH\fP
+This directory contains executable programs.  On a network, this
+directory may be shared between machines with identical hardware and
+operating systems; it may be mounted read-only.  Defaults to
+\fI${exec_prefix}/bin\fP unless otherwise specified.
+.TP 8n
+\f[CW]--mandir=\fP\f[I]PATH\fP
+This directory contains the on-line manual entries.  On a network, this
+directory may be shared between all machines; it may be mounted
+read-only.  Defaults to \fI${prefix}/man\fP unless otherwise specified.
+.PP
+The \f[I]configure\fP script ignores most other arguments that you give
+it; use the \f[CW]--help\fP option for a complete list.
+.br
+.ne 2i
+.PP
+On systems that require unusual options for compilation or linking that
+the \f[I]ucsd-psystem-vm\fP package's \f[I]configure\fP script does not
+know about, you can give \f[I]configure\fP initial values for variables by
+setting them in the environment.  In Bourne-compatible shells, you can
+do that on the command line like this:
+.PP
+.RS
+.ft CW
+.nf
+$ \f[CB]CC='gcc -traditional' LIBS=-lposix ./configure\fP
+\fI\&...lots of output...\fP
+$
+.fi
+.ft R
+.RE
+.PP
+Here are the \f[I]make\fP variables that you might want to override with
+environment variables when running \f[I]configure\fP.
+.TP 8n
+Variable: CC
+C compiler program.
+The default is
+\f[I]c++\fP.
+.TP 8n
+Variable: CPPFLAGS
+Preprocessor flags, commonly defines and include search paths.
+Defaults to empty.
+It is common to use \f[CW]CPPFLAGS=-I/usr/local/include\fP to access other
+installed packages.
+.TP 8n
+Variable: INSTALL
+Program to use to install files.  The default is \f[I]install\fP if you
+have it, \f[I]cp\fP otherwise.
+.TP 8n
+Variable: LIBS
+Libraries to link with, in the form \f[CW]-l\fP\f[I]foo\fP
+\f[CW]-l\fP\f[I]bar\fP.  The \f[I]configure\fP script will
+append to this, rather than replace it.  It is common to use
+\f[CW]LIBS=-L/usr/local/lib\fP to access other installed packages.
+.PP
+If you need to do unusual things to compile the package, the maintainer
+encourages you to figure out how \f[I]configure\fP could check whether to
+do them, and mail diffs or instructions to the maintainer so that they can
+be included in the next release.
+.br
+.ne 1i
+.SH BUILDING UCSD-PSYSTEM-VM
+All you should need to do is use the
+following command, and wait:
+.PP
+.RS
+.ft CW
+.nf
+$ \f[CB]make\fP
+\fI\&...lots of output...\fP
+$
+.fi
+.ft R
+.RE
+.PP
+When this finishes you should see a directory called
+\f[I]bin\fP containing several programs.
+.br
+.ne 1.5i
+.PP
+If you have GNU Groff installed, the build will also create a
+\f[I]etc/reference.ps\fP file.  This contains the README file, this
+BUILDING file, and all of the man pages.
+.PP
+You can remove the program binaries and object files from the
+source directory by using the following command:
+.PP
+.RS
+.ft CW
+.nf
+$ \f[CB]make clean\fP
+\fI\&...lots of output...\fP
+$
+.fi
+.ft R
+.RE
+.PP
+To remove all of the above files, and also remove the
+\f[I]Makefile\fP and \f[I]lib/config.h\fP and \f[I]config.status\fP files,
+use the following command:
+.PP
+.RS
+.ft CW
+.nf
+$ \f[CB]make distclean\fP
+\fI\&...lots of output...\fP
+$
+.fi
+.ft R
+.RE
+.PP
+The file \f[I]etc/configure.in\fP is used to create \f[I]configure\fP
+by a GNU program called \f[I]autoconf\fP.  You only need to know this
+if you want to regenerate \f[I]configure\fP using a newer version of
+\f[I]autoconf\fP.
+.br
+.ne 1i
+.SH TESTING UCSD-PSYSTEM-VM
+The \f[I]ucsd-psystem-vm\fP package comes with a test suite.  To run this
+test suite, use the following command:
+.PP
+.RS
+.ft CW
+.nf
+$ \f[CB]make sure\fP
+\fI\&...lots of output...\fP
+Passed All Tests
+$
+.fi
+.ft R
+.RE
+.PP
+The tests take a few seconds each, with a few very fast, and a couple
+very slow, but it varies greatly depending on your CPU.
+.PP
+If all went well, the message
+.PP
+.RS
+.ft CW
+Passed All Tests
+.ft R
+.RE
+.PP
+should appear at the end of the make.
+.br
+.ne 1i
+.SH INSTALLING UCSD-PSYSTEM-VM
+As explained in the \f[I]SITE CONFIGURATION\fP section, above, the
+\f[I]ucsd-psystem-vm\fP package is installed under the \fI/usr/local\fP
+tree by default.  Use the \f[CW]--prefix=\fP\f[I]PATH\fP option
+to \f[I]configure\fP if you want some other path.  More specific
+installation locations are assignable, use the \f[CW]--help\fP option to
+\f[I]configure\fP for details.
+.PP
+All that is required to install the \f[I]ucsd-psystem-vm\fP package is to
+use the following command:
+.PP
+.RS
+.ft CW
+.nf
+$ \f[CB]sudo make install\fP
+Password:
+\fI\&...lots of output...\fP
+$
+.fi
+.ft R
+.RE
+.PP
+Control of the directories used may be found in the first
+few lines of the \f[I]Makefile\fP file and the other files written
+by the \f[I]configure\fP script; it is best to reconfigure using the
+\f[I]configure\fP script, rather than attempting to do this by hand.
+.PP
+If you don't have the \f[I]sudo\fP(8) command installed on your system,
+the install looks like this
+.PP
+.RS
+.ft CW
+.nf
+$ \f[CB]su\fP
+Password:
+# \f[CB]make install\fP
+\fI\&...lots of output...\fP
+# \f[CB]exit\fP
+$
+.fi
+.ft R
+.RE
+.br
+.ne 1i
+.SH GETTING HELP
+If you need assistance with the \f[I]ucsd-psystem-vm\fP package, please
+do not hesitate to contact the maintainer at
+.RS
+.ft CW
+Peter Miller <pmiller@opensource.org.au>
+.ft R
+.RE
+Any and all feedback is welcome.
+.PP
+When reporting problems, please include the version number given by the
+following command:
+.RS
+.ft CW
+.nf
+$ \f[CB]ucsdpsys_vm --version\fP
+ucsdpsys_vm version \*(V)
+\fI\&...warranty disclaimer...\fP
+$
+.fi
+.ft R
+.RE
+.PP
+Please do not send this example; run the program for the exact
+version number.
+.ds n) ucsd-psystem-vm
+.so man/man1/z_copyright.so

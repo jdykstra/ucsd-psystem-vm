@@ -1,0 +1,254 @@
+.\"
+.\" UCSD p-System virtual machine
+.\" Copyright (C) 2006, 2010 Peter Miller
+.\"
+.\" This program is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 2 of the License, or
+.\" (at your option) any later version.
+.\"
+.\" This program is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+.\" General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License
+.\" along with this program. If not, see <http://www.gnu.org/licenses/>.
+.\"
+.ad l
+.hy 0
+.so etc/version.so
+.nf
+<html><head>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<title>ucsd-psystem-vm \*(v)</title></head>
+<body bgcolor=white><h1>
+<img src="icon64.png" align=left>
+<img src="icon64.png" align=right>
+<center>ucsd-psystem-vm \*(v)</center></h1>
+<br  clear=all>
+.\" ------------------------------------------------------------------------
+<table align=center><tr>
+<td width="20%" bgcolor="#dddddd" align=center>
+<a href="http://sourceforge.net"><img
+src="http://sourceforge.net/sflogo.php?group_id=314155&amp;type=1"
+width="88" height="31" border="0" alt="SourceForge.net
+Logo"></a>
+<p>
+This page is hosted by <a
+href="http://sourceforge.net">SourceForge</a>:
+see also the
+<a href="http://sourceforge.net/projects/ucsd-psystem-vm/">
+Project</a> and
+<a
+href="http://sourceforge.net/project/stats/index.php?\
+group_id=314155&ugn=ucsd-psystem-vm"
+>Statistics</a> pages.
+</td><td width="60%">
+.\" ------------------------------------------------------------------------
+<p align=center>
+The <i>ucsd-psystem-vm</i> package is a portable virtual machine for the
+UCSD p-System.
+</p>
+<p align=center>
+[ <a href="download.html"><b>Download</b></a> |
+.\" <a href="mailing-list.html">Mailing List</a> |
+<a
+href="http://aegis.sourceforge.net/cgi-bin/aeget/ucsd-psystem-vm.\*(v)/?menu"
+>Aegis Repo</a> ]
+</p>
+.\" ------------------------------------------------------------------------
+</td><td width="20%" bgcolor="#dddddd" align=center>
+<a
+href="https://sourceforge.net/donate/index.php?group_id=314155"
+><img
+src="https://sourceforge.net/images/project-support.jpg"
+border=0 width=88 height=32></a>
+<p>
+You could <a
+href="https://sourceforge.net/donate/index.php?group_id=314155"
+>support this project</a> with a donation.
+</td></tr></table>
+.\" ------------------------------------------------------------------------
+<table>
+.hy 0
+<!-- #fdb507 -->
+<tr><td valign="top" width="50%" bgcolor="#ffffdd" >
+<h2>About This Project</h2>
+The
+<b>ucsd-psystem-vm</b> project is a portable
+virtual machine
+(p-code interpreter) for the UCSD p-System.
+It supports execution of Apple ][ Pascal programs,
+it can even display TurtleGraphics using X11.
+<p>
+This is a re-packaging of the excellent
+<a href="http://www.klebsch.de/">p-interp</a>
+program by <a href="mailto:mario@klebsch.de" >Mario Klebsch</a>.
+
+<h2> Disk Images </h2>
+
+<a href="http://miller.emu.id.au/pmiller/ucsd-psystem-os/" ><img align="right"
+src="http://miller.emu.id.au/pmiller/ucsd-psystem-os/icon64.png" border=0 /></a>
+In order to do anything useful, the virtual machine needs disk images
+containing the UCSD p-System operating system files and utilities.
+You can build your own disk images using the <a
+href="http://miller.emu.id.au/pmiller/ucsd-psystem-os/" >ucsd-psystem-os</a>
+project, straight from the II.0 sources.
+<p>
+The <a href="http://miller.emu.id.au/pmiller/ucsd-psystem-os/"
+>ucsd-psystem-os</a> project's Download page has a number of links to
+the sources for different UCSD p-System versions.
+
+</td><td valign="top" bgcolor="#ddffdd" width="50%">
+<h2>Ancient History</h2>
+The UCSD p-System is a portable operating system that was popular in the
+early days of personal computers, in the late 1970s and early 1980s.
+<p>
+Like today's Java, it was based on a &ldquo;virtual machine&rdquo; with
+a standard set of low level, machine language like
+&ldquo;p-code&rdquo;
+instructions that were emulated on different hardware, including the
+6502, the 8080, the Z-80, and the PDP-11.  In this way, a Pascal
+compiler that emitted
+p-code executables could produce a program that
+could be run under the p-System on an Apple II, a Xerox 820, or a DEC
+PDP-11.
+<p>
+The most popular language for the p-System was UCSD Pascal.  In fact,
+the p-System operating system itself was written in UCSD Pascal, making
+the entire operating system relatively easy to port between platforms.
+<p>
+By writing a
+p-code interpreter in the platform's native assembly
+language, and a few minimal hooks to operating system functions for
+the file system and interacting with the user, you could move a
+p-code
+executable from another system and run it on the new platform.  In this
+way, the
+p-code generated on one computer could be used to bootstrap the
+port of the p-System to another computer.
+<p align=right>
+<i>From the
+<a href="http://www.threedee.com/jcm/psystem/">
+Jefferson Computer Museum</a>
+web site.</i>
+</p>
+</td></tr>
+
+
+<tr>
+<td bgcolor="#ddffdd" width="50%" valign="top">
+<h2>See Also</h2>
+<dl>
+
+<dt><a href="http://www.threedee.com/jcm/psystem/"
+    >Jefferson Computer Museum</a><dd>
+    This site has links and history for the UCSD p-System.
+    <p>
+
+<dt><a href="http://groups.yahoo.com/group/ucsdpascal/"
+    >Mailing List</a><dd>
+    This Yahoo! group is devoted to UCSD Pascal.
+    <p>
+
+<dt>Search Google<dd>
+    You make like to search <a href="http://www.google.com/"> Google</a>
+    for more <a href="http://www.google.com/search?q=UCSD+p-System"
+    >UCSD p-System</a> information.
+</dl>
+</td><td valign="top" width="50%" bgcolor="#ffffdd" >
+<h2> Sister Projects </h2>
+<table>
+
+<tr><td valign="top">
+    <img src="http://ucsd-psystem-fs.sourceforge.net/icon64.png">
+    </td><td valign="top">
+    <a href="http://ucsd-psystem-fs.sourceforge.net/"
+    >UCSD p-System File System</a>:
+    You can mount UCSD p-System disk images as Linux file systems.
+    </td></tr>
+
+<tr><td valign="top">
+    <img src="http://miller.emu.id.au/pmiller/ucsd-psystem-os/icon64.png">
+    </td><td valign="top">
+    <a href="http://miller.emu.id.au/pmiller/ucsd-psystem-os/"
+    >UCSD p-System Operating System</a>:
+    The ucsd-psystem-os project contains the II.0 source files (and some bug
+    fixes) plus a Makefile that uses the <a
+    href="http://ucsd-psystem-xc.sourceforge.net/" >cross compiler</a> to build
+    the sources, and the <a href="http://ucsd-psystem-fs.sourceforge.net/"
+    >file system tools</a> to build working disk images that can be executed
+    using the virtual machine.
+    </td></tr>
+
+<tr><td valign="top">
+    <img src="http://miller.emu.id.au/pmiller/ucsd-psystem-um/image/icon64.png">
+    </td><td valign="top">
+    <a href="http://miller.emu.id.au/pmiller/ucsd-psystem-um/"
+    >UCSD p-System User Manual</a>:
+    A modern reconstruction of the UCSD p-System II.0 User Manual is
+    available as HTML. It includes complete system documentation for
+    the p-machine, file formats, the Pascal dialect supported by the
+    compiler, and more.
+    </td></tr>
+
+<tr><td valign="top">
+    <img src="http://ucsd-psystem-xc.sourceforge.net/icon64.png">
+    </td><td valign="top">
+    <a href="http://ucsd-psystem-xc.sourceforge.net/"
+    >UCSD p-System Cross Compiler</a>:
+    You can cross compile your UCSD Pascal code on Unix to create
+    p-Machine object code.  By using a cross compiler you can boot-strap
+    a native system by first cross compiling, and then re-compiling with
+    the native compiler.
+    </td></tr>
+
+</table>
+</td></tr></table>
+<hr>
+.\" ------------------------------------------------------------------------
+<table border=0><tr><td valign="top" >
+<a href="http://www.fsf.org/">
+<img
+src="http://upload.wikimedia.org/wikipedia/commons/b/bf/GNU-FDL-\
+ic%C3%B4ne-Transparente.PNG"
+border=0 width=129 height=122></a>
+</td><td valign="top" width="35%">
+The <i>ucsd-psystem-vm</i> package is freely
+distributable under the terms and conditions of the <a
+href="http://www.gnu.org/licenses/gpl.txt" >GNU GPL</a>.
+</td><td valign="top" >
+<a href="http://www.opensource.org/docs/definition.php" ><img
+src="http://www.opensource.org/trademarks/opensource/web/opensource-110x95.png"
+border="0" width="110" height="95" ></a>
+</td>
+<td valign="top" align="right" >
+There is more <a href="http://miller.emu.id.au/pmiller/"
+>Software by Peter Miller</a>
+at his home page.
+</td><td valign="top" >
+<a href="http://miller.emu.id.au/pmiller/" ><img
+src="http://miller.emu.id.au/pmiller/pmiller_2003_colour.64.png"
+border=0 ></a>
+</td></tr></table>
+<hr>
+This page has been accessed approximately <img
+src="http://miller.emu.id.au/cgi-bin/web_hit_counter?ucsdpsys_vm_\*(v)"
+> times since
+.ds MO1 Jan
+.ds MO2 Feb
+.ds MO3 Mar
+.ds MO4 Apr
+.ds MO5 May
+.ds MO6 Jun
+.ds MO7 Jul
+.ds MO8 Aug
+.ds MO9 Sep
+.ds MO10 Oct
+.ds MO11 Nov
+.ds MO12 Dec
+.nr y4 \n[yr]+1900
+\n[dy]-\*[MO\n[mo]]-\n[y4].
+</body></html>

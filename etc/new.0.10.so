@@ -1,0 +1,77 @@
+.\"
+.\" UCSD p-System virtual machine
+.\" Copyright (C) 2010 Peter Miller
+.\"
+.\" This program is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 2 of the License, or
+.\" (at your option) any later version.
+.\"
+.\" This program is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+.\" General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License
+.\" along with this program. If not, see <http://www.gnu.org/licenses/>.
+.\"
+.\" ------------------------------------------------------------------------
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 103, 104
+There is now \[lq]glue\[rq] support for the APPLESTU and TRANSCEN units,
+found in the ucsd-psystem-os project's \f[CW]host/klebsch\fP source
+directory.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 20, 21
+Some byte-sex issues have been fixed, in anticipation of
+trying to debug the cross compiler's big-endian support.
+The virtual machine now takes the system's byte sex from the
+byte sex of the first disk.  All subsequest disk images are check
+to be sure they are all the same.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 16
+The \f[CW]SYSCOM^.MISCINFO\fP word is now emulated, and sets the various
+bits that the emulator has control of, including the
+word-machine and byte-sex indicators.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 18
+Some more detail about ucsd-psystem-os has been added to the
+\f[I]ucsdpsys_vm\fP(1) man page.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 17
+The \f[CW]syscom^.sysunit\fP field is now set to the unit that the
+\f[CW]SYSTEM.PASCAL\fP file was found on, rather than always setting it to 4.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 15
+When using a terminal emulator such as \f[I]xterm\fP(1) or
+\f[I]gnome-terminal\fP(1), the \f[I]ucsdpsys_vm\fP(1) command is now able to
+track the actual terminal size, and adjust \f[CW]CRTINFO.WIDTH\fP and
+\f[CW]CRTINFO.HEIGHT\fP at run-time, so that they always reflect the
+actual terminal size.  This is implemented using a SIGWINCH
+interrupt handler, and the \f[I]ncurses\fP(3) support for SIGWINCH; see
+\f[I]resizeterm\fP(3) for more information.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 12
+The system date (in the system's segment 0 procedure 1 stack frame,
+local variable 67) is now adjusted at run-time, to ensure that the
+system's idea of the current date is always correct, and the resulting
+date stamps on disk files will be correct (well, as correct as a
+two digit year will ever be).
+.\" ------------------------------------------------------------------------
+.\" Add new entries above this line.
+.SS Version 0.10 (2010-Jun-19)
+.\" vim: set ts=8 sw=4 et

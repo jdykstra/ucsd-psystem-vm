@@ -1,0 +1,5 @@
+.so man/man1/ucsdpsys_svolcvt.1
+.so man/man1/ucsdpsys_svolio.1
+.so man/man1/ucsdpsys_vm.1
+.so man/man1/ucsdpsys_vm_license.1
+.so man/man1/ucsdpsys_xturtleserver.1

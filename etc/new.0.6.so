@@ -1,0 +1,73 @@
+'\" t
+.\" UCSD p-System virtual machine
+.\" Copyright (C) 2006, 2010 Peter Miller
+.\"
+.\" This program is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 2 of the License, or
+.\" (at your option) any later version.
+.\"
+.\" This program is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+.\" General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License
+.\" along with this program. If not, see <http://www.gnu.org/licenses/>.
+.\"
+.TP 2n
+.if n *
+.if t \(bu
+The project now uses GNU Autoconf to configure.
+The tarball compiles \[lq]out of the box\[rq].
+Pre-built Debian packages are available on the web site.
+.TP 2n
+.if n *
+.if t \(bu
+All of the commands consistently use \f[I]getopt_long\fP(3) for argument
+parsing.  All commands now come with a man page.
+.TP 2n
+.if n *
+.if t \(bu
+The project uses libexplain for better error reporting of Linux and Unix
+errors.
+.br
+http://libexplain.sourceforge.net/
+.SS Version 0.5 (2001-Aug-02)
+Long integer support has been added.
+.SS Version 0.4 (2001-Jun-08)
+This time, protability has been improved.
+Disk access now functions even when \f[I]mmap\fP(2) is not available,
+using \f[I]lseek\fP(2), \f[I]read\fP(2) and \f[I]write\fP(2) instread.
+.PP
+The code to implement the Turtle Graphics (and all dependencies on X11)
+has been moved to a separate process.  This should make porting to
+other platforms much easier, because this is simply a dedicated server
+that reads turtle commands.  (For historical reasons, it is called at
+the moment but still \f[I]ucsdpsys_xturtleserver\fP(1), his background,
+he can not even hide it completely).
+.PP
+The PRINTER: Device is now also implemented,
+otherwise faulty are a few P-commands have been corrected.
+.PP
+Anyone who had a problem with the F(iler the eX(amine command crashing,
+should try again now.
+.SS Version 0.3 (2001-May-20)
+The build instructions have been simplified.
+The Apple Pascal 1.1 demo now runs.
+.SS Version 0.2 (2001-May-10)
+Things have improved.
+I now have Apple Pascal 1.3 and 1.1 version working.
+Running is perhaps slightly exaggerated,
+but at least the compiler seems to work.
+.SS Version 0.1 (2000-Sep-21)
+Many years ago I learned programming at school using Apple-Pascal.
+From nostalgic feelings out (and because it was the best Pascal system,
+the more I could use), I've started to code interpreter for a p-Machine.
+Actually, not yet ripe for a publication, but in a discussion
+in de.alt.folklore.computer was considerable interest expressed in this
+software.
+.PP
+Although this program is the status of best-Alpha, it's here to download
+ready.  Documentation non-existent, unfortunately.
+Use the source, Luke! Use the source, Luke!

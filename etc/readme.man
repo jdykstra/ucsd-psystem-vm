@@ -1,0 +1,72 @@
+.\"
+.\" UCSD p-System virtual machine
+.\" Copyright (C) 2001 Mario Klebsch
+.\" Copyright (C) 2006, 2010 Peter Miller
+.\"
+.\" This program is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 2 of the License, or (at
+.\" you option) any later version.
+.\"
+.\" This program is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+.\" General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License along
+.\" with this program. If not, see <http://www.gnu.org/licenses/>
+.\"
+.TH "Read Me" ucsd-psystem-vm ucsd-psystem-vm "Reference Manual"
+.so etc/version.so
+.hy 0
+.ad l
+.SH NAME
+ucsd-psystem-vm \- UCSD p-System virtual machine
+.XX "" "The README file"
+.SH DESCRIPTION
+The \f[I]ucsd-psystem-vm\fP package is a virtual machine (p-code
+interpreter) for the UCSD p-System.
+.PP
+The \f[I]ucsd-psystem-vm\fP package makes it possible to
+run UCSD Pascal (an ancient programming environment) on today's Linux
+machines, and also *BSD.
+The p-code runs very much faster on modern hardware.
+.PP
+.\" This p-code interpreter was developed using the 64K system of Apple
+.\" Pascal Version 1.3.
+.\" Versions 1.2 and 1.1 also work, are not as extensively tested.
+.PP
+This is still experimental code.  If you are in trouble,
+\[lq]Use the source, Luke!\[rq]
+.SS Running the Virtual Machine
+For instructions on how to run the virtual machine,
+including details of how to fetch and manipulate disk images,
+see the \f[I]ucsdpsys_vm\fP(1) man page.
+.SS Nostalgia
+If you are still reading,
+prepare to enter the nostalgic world of UCSD Pascal...
+.RS
+.nf
+.ft CW
+Command: E(dit, R(un, F(ile, C(omp, L(ink, X(ecute, A(ssem, D(ebug,? [II.0]
+
+Welcome SYSTEM, to
+
+U.C.S.D.  Pascal  System  II.0
+
+Current date is 30-Jun-79
+.fi
+.ft P
+.RE
+.SH BUILD
+You will find complete instructions for building the
+\f[I]ucsd-psystem-vm\fP package in the BUILDING file in the source
+tarball.
+.ds n) ucsd-psystem-vm
+.so man/man1/z_copyright.so
+.bp
+.SH RELEASE NOTES
+.XX "" "Release Notes"
+This section details the various features and bug fixes of the various
+releases.
+.so etc/new.so

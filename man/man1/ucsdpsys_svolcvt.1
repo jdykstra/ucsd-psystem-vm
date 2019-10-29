@@ -1,0 +1,51 @@
+.\"
+.\" UCSD p-System virtual machine
+.\" Copyright (C) 2000 Mario Klebsch
+.\" Copyright (C) 2006, 2010 Peter Miller
+.\"
+.\" This program is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 2 of the License, or
+.\" (at your option) any later version.
+.\"
+.\" This program is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\" GNU General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License along
+.\" with this program. If not, see <http://www.gnu.org/licenses/>
+.\"
+.ds n) ucsdpsys_svolcvt
+.TH "ucsdpsys_svolcvt" 1 ucsd-psystem-vm "Reference Manual"
+.SH NAME
+ucsdpsys_svolcvt \- de-interleave Apple Pascal disk images
+.XX "ucsdpsys_svolcvt(1)" "de-interleave Apple Pascal disk images"
+.SH SYNOPSIS
+\fB\*(n)\fP < \f[I]svol-file\fP > \f[I]dsk-file\fP
+.br
+\fB\*(n)\fP < \f[I]dsk-file\fP > \f[I]svol-file\fP
+.SH DESCRIPTION
+The \fI\*(n)\fP program is a utility to convert UCSD volume images
+from \f[CW].svol\fP format to \f[CW].dsk\fP format and vice versa.
+The conversion is symmetric, no options are needed to specify which
+conversion is needed.
+.SH OPTIONS
+The following options are understood:
+.TP 8n
+\fB\-V\fP
+.TP 8n
+\fB\-\-version\fP
+Print the version number and exit.
+.SH "SEE ALSO"
+.TP 8n
+\f[I]ucsdpsys_vm\fP(1)
+UCSD p-System virtual machine
+.TP 8n
+\f[I]ucsdpsys_svolio\fP(1)
+manipulate UCSD p-System disk images
+.SH BUGS
+The size of the volume file must be multiple of 4KB
+(the Apple ][ track size)
+.so man/man1/z_exit.so
+.so man/man1/z_copyright.so
