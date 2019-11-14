@@ -455,6 +455,7 @@ ProcName(char *d, int Seg, int Proc, word Sp)
 }
 
 
+/*  ?? Unsafe - No bounds check on provided Buffer.  */
 word
 DisasmP(char *Buffer, word SegNo, word IpcBase, word Ipc, word JTab, word Sp)
 {

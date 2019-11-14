@@ -17,8 +17,6 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>
  */
 
-#ifdef TURTLEGRAPHICS
-
 #include <libexplain/execlp.h>
 #include <libexplain/fork.h>
 #include <libexplain/socketpair.h>
@@ -37,6 +35,8 @@
 
 #include <ucsdpsys_vm/stack.h>
 #include <ucsdpsys_vm/turtlegr.h>
+
+#ifdef TURTLEGRAPHICS
 
 static FILE *TurtleServer = NULL;
 

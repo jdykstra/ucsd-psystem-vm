@@ -226,7 +226,7 @@ panic(const char *Msg, ...)
 /*
  * Convert to boolean.
  */
-inline word
+static inline word
 Boolean(word i)
 {
     return (i ? 1 : 0);
@@ -269,7 +269,7 @@ FetchB(void)
 }
 
 
-inline word
+static inline word
 FetchW(void)
 {
     word w;
@@ -279,7 +279,7 @@ FetchW(void)
 }
 
 
-inline word
+static inline word
 FetchUB(void)
 {
     return ((word)MemRdByte(IpcBase, Ipc++));
@@ -304,7 +304,7 @@ SelfRelPtr(word Addr)
 /*
  * Returns the number of procedures of a segment.
  */
-inline byte
+static inline byte
 SegNumProc(word segno)
 {
     return (MemRd(segno) >> 8);
@@ -314,7 +314,7 @@ SegNumProc(word segno)
 /*
  * Return the segment number of a segment.
  */
-inline byte
+static inline byte
 SegNumber(word segno)
 {
     return (MemRd(segno) & 0xff);
@@ -325,7 +325,7 @@ SegNumber(word segno)
  * Returns a pointer to the activation record of a specified procedure
  * in a specified segment.
  */
-inline word
+static inline word
 Proc(word segno, byte ProcNr)
 {
     PointerCheck(segno);
@@ -338,7 +338,7 @@ Proc(word segno, byte ProcNr)
 /*
  * Returns the procedure number of a procedure.
  */
-inline signed char
+static inline signed char
 ProcNumber(word jtab)
 {
     PointerCheck(jtab);
@@ -349,7 +349,7 @@ ProcNumber(word jtab)
 /*
  * Returns the lex level of a procedure.
  */
-inline signed char
+static inline signed char
 ProcLexLevel(word jtab)
 {
     PointerCheck(jtab);
@@ -371,7 +371,7 @@ ProcBase(word jtab)
 /*
  * Returns the byte offset to the exit code of a procedure.
  */
-inline word
+static inline word
 ProcExitIpc(word jtab)
 {
     PointerCheck(jtab);
@@ -383,7 +383,7 @@ ProcExitIpc(word jtab)
  * Returns the size of the parameters, which are passed to a
  * procedure.
  */
-inline word
+static inline word
 ProcParamSize(word jtab)
 {
     PointerCheck(jtab);
@@ -395,7 +395,7 @@ ProcParamSize(word jtab)
  * Returns the size of the storage a procedure needs for its local
  * variables.
  */
-inline word
+static inline word
 ProcDataSize(word jtab)
 {
     PointerCheck(jtab);
@@ -406,7 +406,7 @@ ProcDataSize(word jtab)
 /*
  * Returns a pointer to a local variable.
  */
-inline word
+static inline word
 LocalAddr(word Offset)
 {
     return (WordIndexed(Mp, MS_VAR + Offset));
@@ -416,7 +416,7 @@ LocalAddr(word Offset)
 /*
  * Returns a pointer to a global variable.
  */
-inline word
+static inline word
 GlobalAddr(word Offset)
 {
     return (WordIndexed(Base, MS_VAR + Offset));
@@ -426,7 +426,7 @@ GlobalAddr(word Offset)
 /*
  * Traverse the static link chain.
  */
-inline word
+static inline word
 Intermediate(byte Count)
 {
     word p;
@@ -439,7 +439,7 @@ Intermediate(byte Count)
 /*
  * Returns a pointer to a variable of an enclosing procedure.
  */
-inline word
+static inline word
 IntermediateAddr(word Offset, byte Count)
 {
     return (WordIndexed(Intermediate(Count), MS_VAR + Offset));
@@ -450,7 +450,7 @@ IntermediateAddr(word Offset, byte Count)
  * Returns a pointer to a variable in a data segment (a global
  * variable in a UNIT)
  */
-inline word
+static inline word
 ExternalAddr(word Offset, byte SegNo)
 {
     assert(SegNo < SEG_DICT_SIZE);
@@ -480,7 +480,7 @@ jump(signed char disp)
 /*
  * Calculates the static link pointer for a procedure.
  */
-inline word
+static inline word
 StaticLink(word NewSeg, byte ProcNo)
 {
     word NewJTab = Proc(NewSeg, ProcNo);
@@ -788,10 +788,10 @@ List(FILE *out, int SegNo, word jtab)
 void
 Debugger(void)
 {
-    char prompt[64];
+    char prompt[256+64]; /* Hold maximum Buffer plus rough guess at other sizes. */
     char Buffer[256];
-    int from;
-    int to;
+    unsigned int from;
+    unsigned int to;
     char Buf[10];
     char *line;
     FILE *out;
@@ -1004,7 +1004,7 @@ Debugger(void)
  * assumtions are not always true, but the diffs get a lot shorter
  * using this translation. :-)
  */
-inline word
+static inline word
 Translate(word Value)
 {
 #ifdef TRACE_TRANSLATE
