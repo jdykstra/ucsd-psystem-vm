@@ -1,3 +1,22 @@
+Built VM using:
+
+	./configure CFLAGS="-g -O2 -std=c99 -pedantic-errors -D_POSIX_C_SOURCE=2 -D_DEFAULT_SOURCE"
+
+I think most/all of the rest of the projects are in c++, so some of these configure options probably only apply to VM.
+
+The user shouldn't have to manually set CFLAGS like this just to get things to compile.  If we had a configure.in file, the AC_PROC_CC_STDC macro would set the -std macro.
+
+Tests require ucsdpsys_compile.
+
+VM requires the libncurses5-dev, but configure doesn't check for it.  (Actually, it does contain ncurses code, but for some reason it didn't complain when the library wasn't present.  Need to investigate more.)  Also need libx11-dev and libxt-dev, libpng-dev, zlib1g-dev, flex, bison, libexplain-dev
+
+VM builds cleanly and passes all test on Ubuntu 20.04 (Focal Fossa) and Debian 10.3.
+
+
+
+Peter Miller's BUILDING text
+----------------------------
+
 Build(ucsd-psystem-vm)                                  Build(ucsd-psystem-vm)
 
 
