@@ -12,6 +12,8 @@ VM requires the libncurses5-dev, but configure doesn't check for it.  (Actually,
 
 VM builds cleanly and passes all test on Ubuntu 20.04 (Focal Fossa) and Debian 10.3.
 
+disk-images/ contains two UCSD P-System disk images that run on the VM.  Peter Miller included these in his ucsd-psystem-os project, but they are included here to make this project self-sufficient.
+
 
 
 Peter Miller's BUILDING text
