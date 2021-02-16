@@ -18,10 +18,6 @@
  */
 
 #include <getopt.h>
-#include <libexplain/fflush.h>
-#include <libexplain/fread.h>
-#include <libexplain/freopen.h>
-#include <libexplain/fwrite.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -81,11 +77,11 @@ main(int argc, char **argv)
     switch (argc - optind)
     {
     case 2:
-        explain_freopen_or_die(argv[optind + 1], "wb", stdout);
+        freopen(argv[optind + 1], "wb", stdout);
         /* Fall through... */
 
     case 1:
-        explain_freopen_or_die(argv[optind], "rb", stdin);
+        freopen(argv[optind], "rb", stdin);
         /* Fall through... */
 
     case 0:
@@ -100,11 +96,11 @@ main(int argc, char **argv)
         int             i;
         unsigned char   Buffer[SEC_SIZE * SEC_PER_TRACK];
 
-        if (explain_fread_or_die(Buffer, sizeof(Buffer), 1, stdin) <= 0)
+        if (fread(Buffer, sizeof(Buffer), 1, stdin) <= 0)
             break;
         for (i = 0; i < SEC_PER_TRACK; i++)
         {
-            explain_fwrite_or_die
+            fwrite
             (
                 Buffer + table[i] * SEC_SIZE,
                 SEC_SIZE,
@@ -113,6 +109,6 @@ main(int argc, char **argv)
             );
         }
     }
-    explain_fflush_or_die(stdout);
+    fflush(stdout);
     return 0;
 }

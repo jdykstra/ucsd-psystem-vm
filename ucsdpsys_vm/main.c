@@ -22,10 +22,6 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <getopt.h>
-#include <libexplain/fclose.h>
-#include <libexplain/fopen.h>
-#include <libexplain/gettimeofday.h>
-#include <libexplain/open.h>
 #include <math.h>
 #include <setjmp.h>
 #include <stdarg.h>
@@ -978,7 +974,7 @@ Debugger(void)
 
         case 'q':
             if (TraceFile)
-                explain_fclose_or_die(TraceFile);
+                fclose(TraceFile);
             exit(0);
         }
         if (close_method && out)
@@ -2403,7 +2399,7 @@ Processor(void)
             case CSP_TIM:
                 {
                     struct timeval tv;
-                    if (explain_gettimeofday_on_error(&tv, NULL) < 0)
+                    if (gettimeofday(&tv, NULL) < 0)
                     {
                         MemWr(Pop(), 0);
                         MemWr(Pop(), 0);
@@ -3147,7 +3143,7 @@ main(int argc, char **argv)
             if (strcmp(optarg, "-") == 0)
                 BatchFd = 0;
             else
-                BatchFd = explain_open_or_die(optarg, O_RDONLY, 0);
+                BatchFd = open(optarg, O_RDONLY, 0);
             break;
 
         case 'D':
@@ -3183,7 +3179,7 @@ main(int argc, char **argv)
             }
             else
             {
-                TraceFile = explain_fopen_or_die(optarg, "w");
+                TraceFile = fopen(optarg, "w");
             }
             break;
 
@@ -3367,6 +3363,6 @@ main(int argc, char **argv)
     }
     TermClose();
     if (TraceFile)
-        explain_fclose_or_die(TraceFile);
+        fclose(TraceFile);
     return (0);
 }

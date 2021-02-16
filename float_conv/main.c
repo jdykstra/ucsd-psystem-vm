@@ -19,9 +19,6 @@
 
 #include <assert.h>
 #include <getopt.h>
-#include <libexplain/fflush.h>
-#include <libexplain/fgets.h>
-#include <libexplain/freopen.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -82,11 +79,11 @@ main(int argc, char **argv)
     switch (argc - optind)
     {
     case 2:
-        explain_freopen_or_die(argv[optind + 1], "w", stdout);
+        freopen(argv[optind + 1], "w", stdout);
         /* fall through... */
 
     case 1:
-        explain_freopen_or_die(argv[optind], "r", stdin);
+        freopen(argv[optind], "r", stdin);
         /* fall through... */
 
     case 0:
@@ -104,7 +101,7 @@ main(int argc, char **argv)
         int             i;
         char            Buffer[256];
 
-        if (!explain_fgets_or_die(Buffer, sizeof(Buffer), stdin))
+        if (!fgets(Buffer, sizeof(Buffer), stdin))
             break;
         assert(sizeof(float) == 2 * sizeof(unsigned short));
         assert(sizeof(float) == 4);
@@ -124,6 +121,6 @@ main(int argc, char **argv)
         }
         printf("\n");
     }
-    explain_fflush_or_die(stdout);
+    fflush(stdout);
     return 0;
 }

@@ -19,7 +19,6 @@
 
 #include <ctype.h>
 #include <getopt.h>
-#include <libexplain/write.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>

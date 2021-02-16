@@ -18,7 +18,6 @@
  */
 
 #include <getopt.h>
-#include <libexplain/malloc.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -250,7 +249,7 @@ static void InitTurtle(int Width, int Height)
 
   if (!w)
     {
-      Buffer = explain_malloc_or_die(Width * Height / 2);
+      Buffer = malloc(Width * Height / 2);
       memset(Buffer, PENCOLOR_BLACK*0x11, Width*Height/2);
 
       n=0;

@@ -17,9 +17,6 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>
  */
 
-#include <libexplain/execlp.h>
-#include <libexplain/fork.h>
-#include <libexplain/socketpair.h>
 #include <math.h>
 #include <stdarg.h>
 #include <stdio.h>
@@ -56,9 +53,9 @@ StartTurtleServer(void)
     int pid;
     int i;
 
-    if (explain_socketpair_on_error(PF_UNIX, SOCK_STREAM, 0, fd) < 0)
+    if (socketpair(PF_UNIX, SOCK_STREAM, 0, fd) < 0)
         return;
-    pid = explain_fork_on_error();
+    pid = fork();
     if (pid < 0)
         return;
     if (!pid)
@@ -75,7 +72,7 @@ StartTurtleServer(void)
         }
         for (i = getdtablesize(); i > 2; i--)
             close(i);
-        explain_execlp_or_die
+        execlp
         (
             "ucsdpsys_xturtleserver",
             "ucsdpsys_xturtleserver",

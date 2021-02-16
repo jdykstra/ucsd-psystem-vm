@@ -19,14 +19,6 @@
 
 #include <lib/config.h>
 #include <fcntl.h>
-#include <libexplain/accept.h>
-#include <libexplain/bind.h>
-#include <libexplain/getsockname.h>
-#include <libexplain/listen.h>
-#include <libexplain/open.h>
-#include <libexplain/socket.h>
-#include <libexplain/system.h>
-#include <libexplain/write.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -150,25 +142,25 @@ TermWrite(char ch, word Mode)
             if (!(Mode & 0x8))
                 ;
             else
-                explain_write_or_die(TermOut, &ch, 1);
+                write(TermOut, &ch, 1);
             break;
 
         case 7:
             if (!BatchMode)
-                explain_write_or_die(TermOut, &ch, 1);
+                write(TermOut, &ch, 1);
             break;
 
         case 11:
             /* erase to end of screen */
             if (!BatchMode && clr_eos)
-                explain_write_or_die(TermOut, clr_eos, strlen(clr_eos));
+                write(TermOut, clr_eos, strlen(clr_eos));
             break;
 
         case 12:
             /* erase screen */
             if (!BatchMode && clear_screen)
             {
-                explain_write_or_die(TermOut, clear_screen,
+                write(TermOut, clear_screen,
                     strlen(clear_screen));
             }
             break;
@@ -178,12 +170,12 @@ TermWrite(char ch, word Mode)
             if (!(Mode & 0x4))
             {
                 if (!BatchMode)
-                    explain_write_or_die(TermOut, "\r\n", 2);
+                    write(TermOut, "\r\n", 2);
                 else
-                    explain_write_or_die(TermOut, "\n", 1);
+                    write(TermOut, "\n", 1);
             }
             else
-                explain_write_or_die(TermOut, &ch, 1);
+                write(TermOut, &ch, 1);
             break;
 
         case 16:
@@ -194,22 +186,22 @@ TermWrite(char ch, word Mode)
 
         case 22:
             if (!BatchMode && insert_line)
-                explain_write_or_die(TermOut, insert_line, strlen(insert_line));
+                write(TermOut, insert_line, strlen(insert_line));
             break;
 
         case 25:
             /* move cursor home */
             if (!BatchMode && cursor_home)
-                explain_write_or_die(TermOut, cursor_home, strlen(cursor_home));
+                write(TermOut, cursor_home, strlen(cursor_home));
             else
-                explain_write_or_die(TermOut, "\n", 1);
+                write(TermOut, "\n", 1);
             break;
 
         case 28:
             /* move cursor right */
             if (!BatchMode && cursor_right)
             {
-                explain_write_or_die(TermOut, cursor_right,
+                write(TermOut, cursor_right,
                     strlen(cursor_right));
             }
             break;
@@ -217,7 +209,7 @@ TermWrite(char ch, word Mode)
         case 29:
             /* erase to end of line */
             if (!BatchMode && clr_eol)
-                explain_write_or_die(TermOut, clr_eol, strlen(clr_eol));
+                write(TermOut, clr_eol, strlen(clr_eol));
             break;
 
         case 30:
@@ -228,11 +220,11 @@ TermWrite(char ch, word Mode)
         case 31:
             /* move cursor up */
             if (!BatchMode && cursor_up)
-                explain_write_or_die(TermOut, cursor_up, strlen(cursor_up));
+                write(TermOut, cursor_up, strlen(cursor_up));
             break;
 
         default:
-            explain_write_or_die(TermOut, &ch, 1);
+            write(TermOut, &ch, 1);
             break;
         }
         break;
@@ -248,7 +240,7 @@ TermWrite(char ch, word Mode)
         if (!BatchMode && cursor_address)
         {
             s = tgoto(cursor_address, x, y);
-            explain_write_or_die(TermOut, s, strlen(s));
+            write(TermOut, s, strlen(s));
         }
         state = 0;
         break;
@@ -257,7 +249,7 @@ TermWrite(char ch, word Mode)
         /* char after DLE */
         ch -= 0x20;
         while (ch--)
-            explain_write_or_die(TermOut, " ", 1);
+            write(TermOut, " ", 1);
         state = 0;
         break;
     }
@@ -394,25 +386,25 @@ OpenXTerm(void)
 
     unsigned char TelnetInit[] = { 255, 253, 3, 255, 251, 3, 255, 251, 1 };
 
-    s = explain_socket_or_die(PF_INET, SOCK_STREAM, 0);
+    s = socket(PF_INET, SOCK_STREAM, 0);
     addr.sin_family = AF_INET;
     addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
     addr.sin_port = htons(0);
-    explain_bind_or_die(s, (struct sockaddr *)&addr, sizeof(addr));
-    explain_listen_or_die(s, 1);
+    bind(s, (struct sockaddr *)&addr, sizeof(addr));
+    listen(s, 1);
     i = sizeof(addr);
-    explain_getsockname_or_die(s, (struct sockaddr *)&addr, &i);
+    getsockname(s, (struct sockaddr *)&addr, &i);
 
     snprintf(Buffer, sizeof(Buffer), "xterm -geometry 80x24 -e "
         "telnet -E localhost %d&", ntohs(addr.sin_port));
-    explain_system_success_or_die(Buffer);
+    system(Buffer);
 
     i = sizeof(addr);
-    TermOut = explain_accept_or_die(s, (struct sockaddr *)&addr, &i);
+    TermOut = accept(s, (struct sockaddr *)&addr, &i);
 
     close(s);
 
-    explain_write_or_die(TermOut, TelnetInit, sizeof(TelnetInit));
+    write(TermOut, TelnetInit, sizeof(TelnetInit));
     for (i = 0; i < sizeof(TelnetInit); i++)
     {
         if (read(TermOut, &s, 1) <= 0)
@@ -453,7 +445,7 @@ TermOpen(int UseXTerm, int BatchFd)
         }
         else
         {
-            TermOut = explain_open_or_die("/dev/tty", O_RDWR, 0666);
+            TermOut = open("/dev/tty", O_RDWR, 0666);
             setupterm(NULL, TermOut, NULL);
         }
     }
@@ -470,7 +462,7 @@ TermOpen(int UseXTerm, int BatchFd)
         tcgetattr(TermOut, &OldTerm);
         NewTerm = OldTerm;
         NewTerm.c_iflag &= ~(PARMRK | ISTRIP | INLCR | IGNCR |
-            ICRNL | IUCLC | IXOFF | IXON);
+            ICRNL | IXOFF | IXON);
         NewTerm.c_oflag &= ~OPOST;
         NewTerm.c_lflag &= ~(ISIG | ICANON | ECHO | ECHONL | IEXTEN);
         NewTerm.c_cc[VMIN] = 1;
@@ -478,13 +470,13 @@ TermOpen(int UseXTerm, int BatchFd)
         tcsetattr(TermOut, TCSANOW, &NewTerm);
 
         if (init_1string)
-            explain_write_or_die(TermOut, init_1string, strlen(init_1string));
+            write(TermOut, init_1string, strlen(init_1string));
         if (init_2string)
-            explain_write_or_die(TermOut, init_2string, strlen(init_2string));
+            write(TermOut, init_2string, strlen(init_2string));
         if (init_3string)
-            explain_write_or_die(TermOut, init_3string, strlen(init_3string));
+            write(TermOut, init_3string, strlen(init_3string));
         if (enter_ca_mode)
-            explain_write_or_die(TermOut, enter_ca_mode, strlen(enter_ca_mode));
+            write(TermOut, enter_ca_mode, strlen(enter_ca_mode));
 
         AddKeyTranslation(0x0b, "\033[A", NULL);
         AddKeyTranslation(0x0a, "\033[B", NULL);
@@ -516,19 +508,19 @@ TermClose(void)
 #endif
     if (!BatchMode)
     {
-        explain_write_or_die(TermOut, "\r\n", 2);
+        write(TermOut, "\r\n", 2);
         if (exit_ca_mode)
-            explain_write_or_die(TermOut, exit_ca_mode, strlen(exit_ca_mode));
+            write(TermOut, exit_ca_mode, strlen(exit_ca_mode));
         if (reset_1string)
-            explain_write_or_die(TermOut, reset_1string, strlen(reset_1string));
+            write(TermOut, reset_1string, strlen(reset_1string));
         if (reset_2string)
-            explain_write_or_die(TermOut, reset_2string, strlen(reset_2string));
+            write(TermOut, reset_2string, strlen(reset_2string));
         if (reset_3string)
-            explain_write_or_die(TermOut, reset_3string, strlen(reset_3string));
+            write(TermOut, reset_3string, strlen(reset_3string));
         tcsetattr(TermOut, TCSANOW, &OldTerm);
     }
     else
-        explain_write_or_die(TermOut, "\n", 1);
+        write(TermOut, "\n", 1);
     close(TermOut);
     close(TermIn);
 }

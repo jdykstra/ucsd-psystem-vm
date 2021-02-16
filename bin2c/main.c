@@ -18,9 +18,6 @@
  */
 
 #include <getopt.h>
-#include <libexplain/fflush.h>
-#include <libexplain/freopen.h>
-#include <libexplain/fread.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -79,11 +76,11 @@ main(int argc, char **argv)
     switch (argc - optind)
     {
     case 2:
-        explain_freopen_or_die(argv[optind + 1], "w", stdout);
+        freopen(argv[optind + 1], "w", stdout);
         /* fall through... */
 
     case 1:
-        explain_freopen_or_die(argv[optind], "rb", stdin);
+        freopen(argv[optind], "rb", stdin);
         /* fall through... */
 
     case 0:
@@ -96,7 +93,7 @@ main(int argc, char **argv)
     Flag = 0;
     for (;;)
     {
-        Len = explain_fread_or_die(Buffer, 1, sizeof(Buffer), stdin);
+        Len = fread(Buffer, 1, sizeof(Buffer), stdin);
         if (Len <= 0)
             break;
         for (i = 0; i < Len; i++)
@@ -114,6 +111,6 @@ main(int argc, char **argv)
         Flag |= 2;
     }
     printf("\n");
-    explain_fflush_or_die(stdout);
+    fflush(stdout);
     return 0;
 }

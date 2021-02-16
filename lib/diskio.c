@@ -19,9 +19,6 @@
 
 #include <assert.h>
 #include <fcntl.h>
-#include <libexplain/fstat.h>
-#include <libexplain/open.h>
-#include <libexplain/read.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -264,13 +261,13 @@ DiskMount(word Unit, const char *FileName, enum DiskMode Mode)
     assert(Unit < MAX_UNIT);
     u = &unit_table[Unit];
     fd =
-        explain_open_or_die
+        open
         (
             FileName,
             (Mode == ReadWrite) ? O_RDWR : O_RDONLY,
             0666
         );
-    if (explain_fstat_on_error(fd, &buf) < 0)
+    if (fstat(fd, &buf) < 0)
     {
         close(fd);
         return (-1);
@@ -307,7 +304,7 @@ DiskMount(word Unit, const char *FileName, enum DiskMode Mode)
     {
         u->Data = malloc(u->Size);
         assert(u->Data);
-        if (explain_read_on_error(u->fd, u->Data, u->Size) != (ssize_t) u->Size)
+        if (read(u->fd, u->Data, u->Size) != (ssize_t) u->Size)
         {
             free(u->Data);
             u->Data = NULL;
