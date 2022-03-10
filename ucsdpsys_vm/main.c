@@ -2198,7 +2198,7 @@ Processor(void)
                 for (i = 0; i < Size; i++)
                     Set.Data[i] = Pop() & ~Set.Data[i];
                 while (i < Set.Size)
-                    Set.Data[i] = 0;
+                    Set.Data[i++] = 0;
                 SetPush(&Set);
             }
             break;
