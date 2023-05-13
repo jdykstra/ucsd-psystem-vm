@@ -1,3 +1,8 @@
+.bin
+.bindir
+.mandir
+/etc/*.ps
+
 /build/
 
 # Eclipse
