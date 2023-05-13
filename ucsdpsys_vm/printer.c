@@ -24,8 +24,47 @@
 
 #include <ucsdpsys_vm/printer.h>
 
-
+static int UseLP = 0;
 static FILE *Printer = NULL;
+
+void
+PrinterInit(int UsePrinter, const char *PrinterPath)
+{
+    if (!UsePrinter)
+    {
+        UseLP = 0;
+        Printer = NULL;
+    }
+    else if (!PrinterPath)
+    {
+        UseLP = 1;
+        Printer = NULL;
+    }
+    else
+    {
+        UseLP = 0;
+        Printer = fopen(PrinterPath, "w");
+    }
+}
+
+void
+PrinterClose(void)
+{
+    if (!Printer)
+    {
+        /* pass */
+    }
+    else if (UseLP)
+    {
+        pclose(Printer);
+        Printer = NULL;
+    }
+    else
+    {
+        fclose(Printer);
+        Printer = NULL;
+    }
+}
 
 
 void
@@ -33,13 +72,9 @@ PrinterWrite(byte ch, word Mode)
 {
     static int Dle = 0;
 
-    if (!Printer)
+    if (UseLP && !Printer)
     {
-#ifdef PRINT_DEVICE
-        Printer = fopen(PRINT_DEVICE, "w");
-#else
         Printer = popen("lp -s", "w");
-#endif
     }
 
     if (!Printer)
@@ -87,13 +122,17 @@ PrinterWrite(byte ch, word Mode)
 void
 PrinterClear(void)
 {
-    if (Printer)
+    if (!Printer)
     {
-#ifdef PRINT_DEVICE
-        fclose(Printer);
-#else
+        /* pass */
+    }
+    else if (UseLP)
+    {
         pclose(Printer);
-#endif
         Printer = NULL;
+    }
+    else
+    {
+        fflush(Printer);
     }
 }
