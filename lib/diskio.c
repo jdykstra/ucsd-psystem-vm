@@ -349,9 +349,14 @@ disk_get_byte_sex(word unit_number)
     //
     assert(unit_number < MAX_UNIT);
     u = &unit_table[unit_number];
+
+    // Block = 2 -> Track = 0, Logical Sector = 4
+    const int sec = u->Translate ? u->Translate[4] : 4;
+    const off_t off = sec * 256;
+
     if (u->Data)
     {
-        return (u->Data[0x402] ? little_endian : big_endian);
+        return (u->Data[off + 2] ? little_endian : big_endian);
     }
 
     // If we don't have mmap,
@@ -362,7 +367,7 @@ disk_get_byte_sex(word unit_number)
 
         if
         (
-            lseek(u->fd, 0x400, SEEK_SET) >= 0
+            lseek(u->fd, off, SEEK_SET) >= 0
         &&
             read(u->fd, buf, sizeof(buf)) == sizeof(buf)
         )
