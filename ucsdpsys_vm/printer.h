@@ -21,6 +21,9 @@
 
 #include <lib/psystem.h>
 
+void PrinterInit(int UsePrinter, const char *PrinterPath);
+void PrinterClose(void);
+
 /**
   * The PrinterWrite function is used by unitwrite to send a character
   * to the printer.

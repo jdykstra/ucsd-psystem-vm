@@ -52,6 +52,7 @@
 #include <ucsdpsys_vm/sets.h>
 #include <ucsdpsys_vm/stack.h>
 #include <ucsdpsys_vm/term.h>
+#include <ucsdpsys_vm/printer.h>
 
 #undef IXP_COMPATIBILITY
 #undef TRACE_TRANSLATE
@@ -3093,6 +3094,7 @@ static const struct option options[] =
     { "version", 0, 0, 'V' },
     { "write", 1, 0, 'w' },
     { "xterm", 1, 0, 'x' },
+    { "printer", 2, 0, 'p' },
     { 0, 0, 0, 0 }
 };
 
@@ -3105,6 +3107,8 @@ main(int argc, char **argv)
     int             Unit;
     int             UseXTerm;
     int             BatchFd;
+    const char      *PrinterPath;
+    int             UsePrinter;
     const char      *SystemName;
     int             emulate_date;
     int             root_unit;
@@ -3115,6 +3119,8 @@ main(int argc, char **argv)
     Unit = 4;
     UseXTerm = 0;
     BatchFd = -1;
+    UsePrinter = 0;
+    PrinterPath = NULL;
     SystemName = "system.pascal";
     emulate_date = 1;
     memset(SegDict, 0, sizeof(SegDict));
@@ -3126,7 +3132,7 @@ main(int argc, char **argv)
 
     for (;;)
     {
-        i = getopt_long(argc, argv, "ab:Ddgn:t:T:w:r:f:xV", options, 0);
+        i = getopt_long(argc, argv, "ab:Ddgn:p::t:T:w:r:f:xV", options, 0);
         if (i == EOF)
             break;
         switch (i)
@@ -3273,6 +3279,13 @@ main(int argc, char **argv)
             UseXTerm++;
             break;
 
+        case 'p':
+            UsePrinter++;
+            if (optarg) {
+                PrinterPath = optarg;
+            }
+            break;
+
         case 'V':
             version_print();
             return 0;
@@ -3280,6 +3293,7 @@ main(int argc, char **argv)
     }
 
     TermOpen(UseXTerm, BatchFd);
+    PrinterInit(UsePrinter, PrinterPath);
 
 #ifndef WORD_MEMORY
     if (AppleCompatibility)
@@ -3366,6 +3380,7 @@ main(int argc, char **argv)
         DiskUmount(Unit);
     }
     TermClose();
+    PrinterClose();
     if (TraceFile)
         explain_fclose_or_die(TraceFile);
     return (0);
