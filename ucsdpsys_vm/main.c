@@ -3140,6 +3140,9 @@ main(int argc, char **argv)
         case 'a':
 #ifndef WORD_MEMORY
             AppleCompatibility = 1;
+#else
+            fprintf(stderr, "Apple compatibility requires byte mode memory\n");
+            usage();
 #endif
             break;
 
@@ -3289,6 +3292,9 @@ main(int argc, char **argv)
         case 'V':
             version_print();
             return 0;
+
+        default:
+            usage();
         }
     }
 
