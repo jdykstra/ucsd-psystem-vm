@@ -392,7 +392,7 @@ all-bin: bin/bin2c bin/float_conv bin/test_prelude bin/ucsdpsys_svolcvt bin/ucsd
 all-doc: etc/building.ps etc/change_log.ps etc/readme.ps etc/reference.ps
 
 .bin:
-	-mkdir bin
+	-mkdir -p bin
 	-chmod 0755 bin
 	@-test -d bin && touch $@
 	@sleep 1
