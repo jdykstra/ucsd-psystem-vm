@@ -64,7 +64,7 @@ static byte     TraceProc;
 
 #define APPLE_HEAP_BOT          0x0804
 #define APPLE_KP_TOP            0xfe7c
-#define APPLE_SEG0_LOAD_GAP     0x450a
+#define APPLE_SEG0_LOAD_GAP     0x350a
 #define APPLE_SYSCOM            0xbdde
 
 #ifdef TRACE_TRANSLATE
