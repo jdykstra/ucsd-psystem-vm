@@ -141,10 +141,6 @@ SOELIM = @SOELIM@
 #
 the-default-target: all
 
-bin2c/main.o: bin2c/main.c lib/progname.h lib/version.h
-	$(CC) $(CPPFLAGS) $(CFLAGS) -I. -c bin2c/main.c
-	mv main.o bin2c/main.o
-
 etc/building.ps: etc/building.man etc/version.so man/man1/z_copyright.so
 	$(GROFF) -s -I. -t -man etc/building.man > $@
 
@@ -157,12 +153,8 @@ etc/howto.conf: etc/howto.conf.in ./config.status
 etc/readme.ps: etc/readme.man etc/new.0.10.so etc/new.0.11.so etc/new.0.6.so etc/new.0.7.so etc/new.0.8.so etc/new.0.9.so etc/new.so etc/version.so man/man1/z_copyright.so
 	$(GROFF) -s -I. -t -man etc/readme.man > $@
 
-etc/reference.ps: etc/reference.man etc/building.man etc/logo.so etc/new.0.10.so etc/new.0.11.so etc/new.0.6.so etc/new.0.7.so etc/new.0.8.so etc/new.0.9.so etc/new.so etc/readme.man etc/ref-index.so etc/ref-parts.so etc/ref-toc.so etc/version.so man/man1/ucsdpsys_svolcvt.1 man/man1/ucsdpsys_svolio.1 man/man1/ucsdpsys_vm.1 man/man1/ucsdpsys_vm_license.1 man/man1/ucsdpsys_xturtleserver.1 man/man1/z_copyright.so man/man1/z_exit.so
+etc/reference.ps: etc/reference.man etc/building.man etc/logo.so etc/new.0.10.so etc/new.0.11.so etc/new.0.6.so etc/new.0.7.so etc/new.0.8.so etc/new.0.9.so etc/new.so etc/readme.man etc/ref-index.so etc/ref-parts.so etc/ref-toc.so etc/version.so man/man1/ucsdpsys_vm.1 man/man1/ucsdpsys_vm_license.1 man/man1/ucsdpsys_xturtleserver.1 man/man1/z_copyright.so man/man1/z_exit.so
 	$(GROFF) -s -I. -t -man etc/reference.man > $@
-
-float_conv/main.o: float_conv/main.c lib/progname.h lib/version.h
-	$(CC) $(CPPFLAGS) $(CFLAGS) -I. -c float_conv/main.c
-	mv main.o float_conv/main.o
 
 lib/byte_sex.o: lib/byte_sex.c lib/byte_sex.h
 	$(CC) $(CPPFLAGS) $(CFLAGS) -I. -c lib/byte_sex.c
@@ -197,16 +189,6 @@ man/.mandir:
 	-$(INSTALL) -m 0755 -d $(mandir)
 	@-test -d $(mandir) && touch $@
 	@sleep 1
-
-$(mandir)/man1/ucsdpsys_svolcvt.1: man/man1/ucsdpsys_svolcvt.1 etc/version.so man/man1/z_copyright.so man/man1/z_exit.so man/man1/.mandir
-	$(SOELIM) -I. -Iman/man1 man/man1/ucsdpsys_svolcvt.1 > tmp
-	$(INSTALL_DATA) tmp $@
-	@rm -f tmp
-
-$(mandir)/man1/ucsdpsys_svolio.1: man/man1/ucsdpsys_svolio.1 etc/version.so man/man1/z_copyright.so man/man1/z_exit.so man/man1/.mandir
-	$(SOELIM) -I. -Iman/man1 man/man1/ucsdpsys_svolio.1 > tmp
-	$(INSTALL_DATA) tmp $@
-	@rm -f tmp
 
 $(mandir)/man1/ucsdpsys_vm.1: man/man1/ucsdpsys_vm.1 etc/version.so man/man1/z_copyright.so man/man1/z_exit.so man/man1/.mandir
 	$(SOELIM) -I. -Iman/man1 man/man1/ucsdpsys_vm.1 > tmp
@@ -278,14 +260,6 @@ t0019a: test/00/t0019a.sh all
 t0020a: test/00/t0020a.sh all
 	PATH=`pwd`/bin:$$PATH $(SH) test/00/t0020a.sh
 
-ucsdpsys_svolcvt/main.o: ucsdpsys_svolcvt/main.c lib/progname.h lib/version.h
-	$(CC) $(CPPFLAGS) $(CFLAGS) -I. -c ucsdpsys_svolcvt/main.c
-	mv main.o ucsdpsys_svolcvt/main.o
-
-ucsdpsys_svolio/main.o: ucsdpsys_svolio/main.c lib/byte_sex.h lib/diskio.h lib/gcc_attributes.h lib/memory.h lib/progname.h lib/psystem.h lib/version.h
-	$(CC) $(CPPFLAGS) $(CFLAGS) -I. -c ucsdpsys_svolio/main.c
-	mv main.o ucsdpsys_svolio/main.o
-
 ucsdpsys_vm/array.o: ucsdpsys_vm/array.c lib/byte_sex.h lib/gcc_attributes.h lib/memory.h lib/psystem.h ucsdpsys_vm/array.h
 	$(CC) $(CPPFLAGS) $(CFLAGS) -I. -c ucsdpsys_vm/array.c
 	mv array.o ucsdpsys_vm/array.o
@@ -345,32 +319,6 @@ lib/libucsd-psystem-vm.a: $(lib_obj)
 	$(AR) qc $@ $(lib_obj)
 	$(RANLIB) $@
 
-bin2c_obj = bin2c/main.o
-
-bin/bin2c: $(bin2c_obj) lib/libucsd-psystem-vm.a .bin
-	$(CC) $(CPPFLAGS) $(CFLAGS) -o $@ $(bin2c_obj) lib/libucsd-psystem-vm.a $(LIBS)
-
-float_conv_obj = float_conv/main.o
-
-bin/float_conv: $(float_conv_obj) lib/libucsd-psystem-vm.a .bin
-	$(CC) $(CPPFLAGS) $(CFLAGS) -o $@ $(float_conv_obj) lib/libucsd-psystem-vm.a $(LIBS)
-
-ucsdpsys_svolcvt_obj = ucsdpsys_svolcvt/main.o
-
-bin/ucsdpsys_svolcvt: $(ucsdpsys_svolcvt_obj) lib/libucsd-psystem-vm.a .bin
-	$(CC) $(CPPFLAGS) $(CFLAGS) -o $@ $(ucsdpsys_svolcvt_obj) lib/libucsd-psystem-vm.a $(LIBS)
-
-$(bindir)/ucsdpsys_svolcvt: bin/ucsdpsys_svolcvt .bindir
-	$(INSTALL_PROGRAM) bin/ucsdpsys_svolcvt $@
-
-ucsdpsys_svolio_obj = ucsdpsys_svolio/main.o
-
-bin/ucsdpsys_svolio: $(ucsdpsys_svolio_obj) lib/libucsd-psystem-vm.a .bin
-	$(CC) $(CPPFLAGS) $(CFLAGS) -o $@ $(ucsdpsys_svolio_obj) lib/libucsd-psystem-vm.a $(LIBS)
-
-$(bindir)/ucsdpsys_svolio: bin/ucsdpsys_svolio .bindir
-	$(INSTALL_PROGRAM) bin/ucsdpsys_svolio $@
-
 ucsdpsys_vm_obj = ucsdpsys_vm/array.o ucsdpsys_vm/long_integer.o ucsdpsys_vm/main.o ucsdpsys_vm/native6502.o ucsdpsys_vm/printer.o ucsdpsys_vm/ptrace.o ucsdpsys_vm/search.o ucsdpsys_vm/sets.o ucsdpsys_vm/stack.o ucsdpsys_vm/term.o ucsdpsys_vm/turtlegr.o ucsdpsys_vm/unit_io.o
 
 bin/ucsdpsys_vm: $(ucsdpsys_vm_obj) lib/libucsd-psystem-vm.a .bin
@@ -388,7 +336,7 @@ $(bindir)/ucsdpsys_xturtleserver: bin/ucsdpsys_xturtleserver .bindir
 	$(INSTALL_PROGRAM) bin/ucsdpsys_xturtleserver $@
 
 all: all-bin all-doc
-all-bin: bin/bin2c bin/float_conv bin/test_prelude bin/ucsdpsys_svolcvt bin/ucsdpsys_svolio bin/ucsdpsys_vm bin/ucsdpsys_xturtleserver
+all-bin: bin/test_prelude bin/ucsdpsys_vm bin/ucsdpsys_xturtleserver
 all-doc: etc/building.ps etc/change_log.ps etc/readme.ps etc/reference.ps
 
 .bin:
@@ -428,9 +376,7 @@ clean-obj:
 	rm -f .bin
 	rm -f .bindir
 	rm -f bin/test_prelude
-	rm -f bin2c/main.o
 	rm -f core
-	rm -f float_conv/main.o
 	rm -f lib/byte_sex.o
 	rm -f lib/diskio.o
 	rm -f lib/libucsd-psystem-vm.a
@@ -440,8 +386,6 @@ clean-obj:
 	rm -f lib/version_stamp.o
 	rm -f man/.mandir
 	rm -f man/man1/.mandir
-	rm -f ucsdpsys_svolcvt/main.o
-	rm -f ucsdpsys_svolio/main.o
 	rm -f ucsdpsys_vm/array.o
 	rm -f ucsdpsys_vm/long_integer.o
 	rm -f ucsdpsys_vm/main.o
@@ -460,11 +404,7 @@ clean-obj:
 	rm -f y.tab.h
 
 clean: clean-obj
-	rm -f bin/bin2c
-	rm -f bin/float_conv
 	rm -f bin/test_prelude
-	rm -f bin/ucsdpsys_svolcvt
-	rm -f bin/ucsdpsys_svolio
 	rm -f bin/ucsdpsys_vm
 	rm -f bin/ucsdpsys_xturtleserver
 	rm -f etc/building.ps
@@ -481,8 +421,8 @@ distclean: clean
 	rm -f lib/config.h
 	rm -rf bin
 
-install-bin: $(bindir)/ucsdpsys_svolcvt $(bindir)/ucsdpsys_svolio $(bindir)/ucsdpsys_vm $(bindir)/ucsdpsys_xturtleserver
+install-bin: $(bindir)/ucsdpsys_vm $(bindir)/ucsdpsys_xturtleserver
 
-install-man: $(mandir)/man1/ucsdpsys_svolcvt.1 $(mandir)/man1/ucsdpsys_svolio.1 $(mandir)/man1/ucsdpsys_vm.1 $(mandir)/man1/ucsdpsys_vm_license.1 $(mandir)/man1/ucsdpsys_xturtleserver.1
+install-man: $(mandir)/man1/ucsdpsys_vm.1 $(mandir)/man1/ucsdpsys_vm_license.1 $(mandir)/man1/ucsdpsys_xturtleserver.1
 
 install: install-bin install-man
