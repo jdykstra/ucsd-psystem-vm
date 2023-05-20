@@ -1,6 +1,12 @@
-Built VM using:
+Build VM using original build system:
 
 	./configure CFLAGS="-g -O2 -std=c99 -pedantic-errors -D_POSIX_C_SOURCE=2 -D_DEFAULT_SOURCE"
+	make
+
+Or using meson:
+
+	meson setup --buildtype=debugoptimized build/
+	meson compile -C build/
 
 I think most/all of the rest of the projects are in c++, so some of these configure options probably only apply to VM.
 
