@@ -1056,9 +1056,7 @@ SetTrace(char *list)
 {
     int i;
     int j;
-    char *p;
 
-    p = strchr(list, ',');
     switch (sscanf(list, "%d,%d", &i, &j))
     {
     case 1:

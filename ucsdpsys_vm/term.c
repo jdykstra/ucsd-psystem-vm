@@ -17,7 +17,6 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>
  */
 
-#include <lib/config.h>
 #include <fcntl.h>
 #include <libexplain/accept.h>
 #include <libexplain/bind.h>
@@ -62,7 +61,7 @@
 static int sigwinch_happened;
 
 
-static RETSIGTYPE
+static void
 sigwinch(int signum)
 {
     (void)signum;

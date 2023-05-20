@@ -20,6 +20,8 @@
 #ifndef UCSDPSYS_VM_TERM_H
 #define UCSDPSYS_VM_TERM_H
 
+#include <lib/memory.h>
+
 void TermOpen(int UseXTerm, int BatchFd);
 void TermClose(void);
 void TermWrite(char ch, word Mode);
