@@ -1,12 +1,12 @@
-project('ucsd-psystem-vm', 'c')
+project('ucsd-psystem-vm', 'c', meson_version: '>=0.58.0')
 
 fs = import('fs')
 
 cc = meson.get_compiler('c')
-sh = find_program('sh', '/bin/sh')
+sh = find_program('sh')
 
 m_dep = cc.find_library('m', required : false)
-ncurses_dep = dependency('ncurses')
+curses_dep = dependency('curses')
 libexplain_dep = dependency('libexplain')
 x11_dep = dependency('x11')
 xt_dep = dependency('xt')
