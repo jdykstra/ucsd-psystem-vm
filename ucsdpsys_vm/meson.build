@@ -16,7 +16,7 @@ vm_sources = [
 vm_dependencies = [
   m_dep,
   libexplain_dep,
-  ncurses_dep,
+  curses_dep,
 ]
 
 vm_exe = executable(
