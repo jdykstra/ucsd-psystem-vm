@@ -1,25 +1,22 @@
-Build VM using original build system:
-
-	./configure CFLAGS="-g -O2 -std=c99 -pedantic-errors -D_POSIX_C_SOURCE=2 -D_DEFAULT_SOURCE"
-	make
-
-Or using meson:
+Build VM using Meson:
 
 	meson setup --buildtype=debugoptimized build/
 	meson compile -C build/
 
-I think most/all of the rest of the projects are in c++, so some of these configure options probably only apply to VM.
+If unfamiliar with Meson, see https://mesonbuild.com/ for package installation,
+initial setup, and built-in build configuration options.
 
-The user shouldn't have to manually set CFLAGS like this just to get things to compile.  If we had a configure.in file, the AC_PROC_CC_STDC macro would set the -std macro.
+Building VM on Debian requires the libncurses5-dev, libexplain-dev, libx11-dev,
+and libxt-dev packages.
 
-Tests require ucsdpsys_compile.
-
-VM requires the libncurses5-dev, but configure doesn't check for it.  (Actually, it does contain ncurses code, but for some reason it didn't complain when the library wasn't present.  Need to investigate more.)  Also need libx11-dev and libxt-dev, libpng-dev, zlib1g-dev, flex, bison, libexplain-dev
+Tests require ucsdpsys_compile from the ucsd-psystem-xc project as well as
+ucsdpsys_mkfs and ucsdpsys_disk from the ucsd-psystem-fs project.
 
 The git tags indicate which distributions have been verified.
 
-disk-images/ contains two UCSD P-System disk images that run on the VM.  Peter Miller included these in his ucsd-psystem-os project, but they are included here to make this project self-sufficient.
-
+disk-images/ contains two UCSD P-System disk images that run on the VM.  Peter
+Miller included these in his ucsd-psystem-os project, but they are included here
+to make this project self-sufficient.
 
 
 Peter Miller's BUILDING text
