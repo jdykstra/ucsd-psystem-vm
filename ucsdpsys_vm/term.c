@@ -468,6 +468,9 @@ TermOpen(int UseXTerm, int BatchFd)
     {
         tcgetattr(TermOut, &OldTerm);
         NewTerm = OldTerm;
+#ifndef IUCLC
+#define IUCLC 0 /* not available on macOS */
+#endif
         NewTerm.c_iflag &= ~(PARMRK | ISTRIP | INLCR | IGNCR |
             ICRNL | IUCLC | IXOFF | IXON);
         NewTerm.c_oflag &= ~OPOST;

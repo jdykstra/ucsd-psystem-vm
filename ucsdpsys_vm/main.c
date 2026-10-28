@@ -2533,13 +2533,13 @@ Processor(void)
             case CSP_TRC:
                 f = PopReal();
                 if (f < 0)
-                    Push(ceil(f));
+                    Push((int)ceil(f));
                 else
-                    Push(floor(f));
+                    Push((int)floor(f));
                 break;
 
             case CSP_RND:
-                Push(round(PopReal()));
+                Push((int)round(PopReal()));
                 break;
 
             case CSP_SIN:
