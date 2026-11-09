@@ -23,6 +23,33 @@
 .SH NAME
 How to build ucsd-psystem-vm
 .XX "" "How to build ucsd-psystem-vm"
+.SH BUILDING WITH MESON
+Build VM using Meson:
+.PP
+.RS
+.ft CW
+.nf
+meson setup \-\-buildtype=debugoptimized build/
+meson compile \-C build/
+.fi
+.ft R
+.RE
+.PP
+If unfamiliar with Meson, see https://mesonbuild.com/ for package installation,
+initial setup, and built\[hy]in build configuration options.
+.PP
+Building VM on Debian requires the libncurses5\[hy]dev, libexplain\[hy]dev,
+libx11\[hy]dev, and libxt\[hy]dev packages.
+.PP
+Tests require ucsdpsys_compile from the ucsd\[hy]psystem\[hy]xc project as
+well as ucsdpsys_mkfs and ucsdpsys_disk from the ucsd\[hy]psystem\[hy]fs
+project.
+.PP
+The git tags indicate which distributions have been verified.
+.PP
+\f[CI]disk-images/\fP contains two UCSD P\[hy]System disk images that run on
+the VM.  Peter Miller included these in his ucsd\[hy]psystem\[hy]os project,
+but they are included here to make this project self\[hy]sufficient.
 .br
 .ne 1i
 .SH BEFORE YOU START
